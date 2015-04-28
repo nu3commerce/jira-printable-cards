@@ -1,4 +1,5 @@
 (function () {
+    var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
     try {
 
         // load jQuery
@@ -7,7 +8,7 @@
         }
 
         // wait untill all scripts loaded
-        appendScript('https://qoomon.github.io/void', function(){
+        jQuery(document).ready(function(){
             init();
             main();
         });
@@ -329,19 +330,6 @@
                      */
                 }));
 
-            // info
-            //result.find("#report-issue")
-            //    .click(function(event){
-            //        window.open('https://github.com/qoomon/Jira-Issue-Card-Printer/issues');
-            //        return false;
-            //    });
-            //
-            //result.find("#about")
-            //    .click(function(event){
-            //        window.open('http://qoomon.blogspot.de/2014/01/jira-issue-card-printer-bookmarklet.html');
-            //        return false;
-            //    });
-
             // enable multe card page
 
             result.find("#multi-card-page-checkbox")
@@ -611,8 +599,6 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                     <div class="author author-page">qoomon.com</div>
-                     <div class="author author-name">Bengt Brodersen</div>
                      <div class="card-border"></div>
                      <div class="card-header">
                      <div class="type-icon badge circular"></div>
@@ -888,7 +874,6 @@
                      float: left;
                      width: 2.1rem;
                      height: 2.1rem;
-                     background-image: url(https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=blog.qoomon.com);
                      background-repeat: no-repeat;
                      -webkit-background-size: cover;
                      background-size: cover;
