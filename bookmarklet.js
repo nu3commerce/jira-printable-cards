@@ -512,29 +512,20 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                         <div class="card-header">
-                            <div class="card-header-left">
-                                <div class="key"></div>
-                            </div>
-                            <div class="card-header-right">
-                                <div class="due">
-                                    <div class="due-date"></div>
-                                </div>
-                            </div>
-                         </div>
-                         <div class="card-content">
-                            <div class="content-header">
-                                <span class="summary"></span>
-                            </div>
-                         </div>
-                         <div class="card-footer">
+                        <div class="card-content">
+                            <span class="card-title>
+                                <span class="key"></span>
+                                 <span class="estimate badge"></div>
+                             </span>
+                            <p class="summary"></p>
+                        </div>
+                        <div class="card-action">
                             <div class="assignee"></div>
                             <div class="epic">
                                 <span class="epic-key"></span>
-                                <span class="epic-name" contenteditable="true"></span>
+                                <span class="epic-name"></span>
                             </div>
-                            <div class="estimate"></div>
-                         </div>
+                        </div>
                      </div>
                      */
                 }));
@@ -549,144 +540,49 @@
                     /*!
                      @import url(https://fonts.googleapis.com/css?family=Roboto);
                      * {
-                     color: black;
-                     font-family: Roboto, sans-serif;
-                     font-size: 20px;
+                         color: black;
+                         font-family: Roboto, sans-serif;
+                         font-size: 20px;
                      }
                      body {
-                     margin: 0;
+                        margin: 0;
                      }
                      .hidden {
-                     visibility: hidden;
-                     }
-                     .card-header:after,
-                     .card-footer:after {
-                     content:" ";
-                     display: block;
-                     clear: both;
-                     height:0
-                     }
-                     .card-header-left {
-                     float: left;
-                     background: #f7f7f7;
-                     }
-                     .card-header-right {
-                     float: right;
-                     background: #f7f7f7;
-                     border-left: 1px solid #ddd;
-                     border-bottom: 1px solid #ddd;
+                        visibility: hidden;
                      }
                      .card {
-                     position: relative;
-                     min-width: 17.0rem;
-                     border: 1px solid #999;
-                     }
-                     .card-header {
-                     position: relative;
+                        position: relative;
+                        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+                        position: relative;
+                        overflow: hidden;
+                        margin: 0.5rem 0 1rem 0;
+                        background-color: #fff;
+                        border-radius: 2px;
                      }
                      .card-content {
-                     position: relative;
-                     margin-top: 0.3rem;
-                     margin-left: 1.0rem;
-                     margin-right: 1.1rem;
-                     margin-bottom: 0.2rem;
-                     min-height: 1.2rem;
+                        padding: 20px;
+                        border-radius: 0 0 2px 2px;
                      }
-                     .content-header {
-                     position: relative;
-                     font-size: 1.1rem;
-                     line-height: 1.1rem;
-                     margin-bottom: 0.6rem;
+                     .card-title {
+                        line-height: 48px;
+                        font-size: 24px;
+                        font-weight: 300;
                      }
-                     .card-footer {
-                     position: relative;
-                     page-break-inside: avoid;
+                     .badge {
+                        color: #fff;
+                        background-color: #26a69a;
+                        border-radius: 2px;
+                        min-width: 3rem;
+                        padding: 0 6px;
                      }
-                     .summary {
-                     font-weight: bold;
-                     text-transform: capitalize;
+                     .card-action {
+                        border-top: 1px solid rgba(160, 160, 160, 0.2);
+                        padding: 20px;
                      }
-                     .description {
-                     font-size: 0.6rem;
-                     line-height: 0.6rem;
-                     }
-                     .key {
-                     display: inline-block;
-                     width: auto;
-                     min-width: 4.4rem;
-                     height: 1.35rem;
-                     padding-left: 0.4rem;
-                     padding-right: 0.4rem;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 1.0rem;
-                     line-height: 1.5rem;
-                     }
-
-                     .card .card-header-left.story {
-                     background-color: #ffff00;
-                     }
-                     .card .card-header-left.bug {
-                     background-color: #b71c1c;
-                     }
-                     .card .card-header-left.epic {
-                     background-color: #304ffe;
-                     }
-
-                     .estimate {
-                     display: inline-block
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 0.9rem;
-                     line-height: 1.15rem;
-                     margin-top:1.5rem;
-                     z-index: 999;
-                     }
-
-                     .due {
-                     display: inline-block;
-                     }
-                     .due-date {
-                     display: inline-block
-                     width: auto;
-                     min-width: 2.8rem;
-                     margin-top: 1.3rem;
-                     padding-left: 0.7rem;
-                     padding-right: 0.7rem;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 0.7rem;
-                     line-height: 0.7rem;
-                     }
-
-                     .assignee {
-                     position: relative;
-                     float: right;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 1em;
-                     line-height: 1.5rem;
-                     }
-
-                     .epic {
-                     width: auto;
-                     height: auto;
-                     position: relative;
-                     float:right;
-                     margin-right:0.6rem;
-                     padding-top: 0.2rem;
-                     padding-bottom: 0.2rem;
-                     padding-left: 0.3rem;
-                     padding-right: 0.3rem;
-                     text-align: left;
-                     font-size: 0.7rem;
-                     line-height: 0.7rem;
-                     max-width: calc( 100% - 10.2rem);
-                     }
-                     .epic-key {
-                     }
-                     .epic-name {
-                     font-weight: bold;
+                     .card-action div {
+                        display: inline-block;
+                        margin-right: 20px;
+                        text-transform: uppercase;
                      }
                      */
                 }).replace(/{RESOURCE_ORIGIN}/g, resourceOrigin));
@@ -708,7 +604,7 @@
         }
 
         function addDeferred(deferredList){
-            var deferred = new jQuery.Deferred()
+            var deferred = new jQuery.Deferred();
             deferredList.push(deferred);
             return deferred;
         }
