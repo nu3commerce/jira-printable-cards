@@ -515,7 +515,7 @@
                         <div class="card-content">
                             <span class="card-title>
                                 <span class="key"></span>
-                                 <span class="estimate badge"></div>
+                                 <span class="estimate badge"></span>
                              </span>
                             <p class="summary"></p>
                         </div>
