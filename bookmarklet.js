@@ -15,14 +15,10 @@
 
         function init(){
             addJQueryFunctions();
-            addConsoleFunctions();
             addStringFunctions();
             addDateFunctions();
 
             printScopeDeviderToken = "<b>Attachment</b>";
-
-            console.logLevel = console.INFO;
-
             resourceOrigin = hostOrigin+ "resources/";
         }
 
@@ -94,8 +90,6 @@
             jQuery("head", printDocument).append(printPanelPageCSS());
             jQuery("head", printDocument).append(printPanelCardCSS());
 
-            console.logInfo("load " + issueKeyList.length + " issues...");
-
             var deferredList = [];
 
             issueKeyList.each(function(position, issueKey) {
@@ -111,16 +105,13 @@
                     deferred.resolve();
                 });
             });
-            console.logInfo("wait for issues loaded...");
 
             applyDeferred(deferredList,function() {
-                console.logInfo("...all issues loaded.");
+
                 jQuery(printWindow).load(function(){
-                    console.logInfo("...all resources loaded.");
                     callback();
                 })
                 printDocument.close();
-                console.logInfo("wait for resources loaded...");
             });
         }
 
@@ -155,43 +146,27 @@
         function fillCardWithJSONData(card, data) {
             //Key
             var key = data.key;
-            console.logDebug("key: " + key);
             card.find('.key').text(key);
 
             //Type
             var type = data.fields.issuetype.name.toLowerCase();
-            console.logDebug("type: " + type);
             card.find(".card").attr("type", type);
 
             //Summary
             var summary = data.fields.summary;
-            console.logDebug("summary: " + summary);
             card.find('.summary').text(summary);
-
-            //Description
-            var description = data.renderedFields.description;
-            console.logDebug("description: " + description);
-            card.find('.description').html(description);
 
             //Assignee
             var assignee = data.fields.assignee;
-            console.logDebug("assignee: " + assignee);
             if ( assignee ) {
-                var avatarUrl = assignee.avatarUrls['48x48'];
-                if(avatarUrl.indexOf("ownerId=") < 0){
-                    var displayName = assignee.displayName;
-                    card.find(".assignee").text(displayName[0].toUpperCase());
-                }
-                else {
-                    card.find(".assignee").css("background-image", "url('" + avatarUrl + "')");
-                }
+                var displayName = assignee.displayName;
+                card.find(".assignee").text(displayName[0].toUpperCase());
             } else {
                 card.find(".assignee").addClass("hidden");
             }
 
             //Due-Date
             var duedate = data.fields.duedate;
-            console.logDebug("duedate: " + duedate);
             if ( duedate ) {
                 var renderedDuedate = new Date(duedate).format('D d.m.');
                 card.find(".due-date").text(renderedDuedate);
@@ -199,25 +174,8 @@
                 card.find(".due").addClass("hidden");
             }
 
-            //Attachment
-            var hasAttachment = false;
-            var indexOfPrintScopeDeviderToken =  description.indexOf(printScopeDeviderToken);
-            if (indexOfPrintScopeDeviderToken >= 0) {
-                var descriptionWithoutAttachment = description.substring(0, indexOfPrintScopeDeviderToken);
-                card.find('.description').html(descriptionWithoutAttachment);
-                hasAttachment = true;
-            } else if (data.fields.attachment.length > 0) {
-                hasAttachment = true;
-            }
-            console.logDebug("hasAttachment: " + hasAttachment);
-            if ( hasAttachment ) {
-            } else{
-                card.find('.attachment').addClass('hidden');
-            }
-
             //Story Points
             var storyPoints = data.fields.storyPoints;
-            console.logDebug("storyPoints: " + storyPoints);
             if (storyPoints) {
                 card.find(".estimate").text(storyPoints);
             } else {
@@ -226,12 +184,10 @@
 
             //Epic
             var epicKey = data.fields.epicLink;
-            console.logDebug("epicKey: " + epicKey);
             if ( epicKey ) {
                 card.find(".epic-key").text(epicKey);
                 loadCardDataJSON(epicKey, function(responseData) {
                     var epicName = responseData.fields.epicName;
-                    console.logTrace("epicName: " + epicName);
                     card.find(".epic-name").text(epicName);
                 }, false);
             } else {
@@ -240,7 +196,6 @@
 
             //QR-Code
             var qrCodeImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=' + window.location.origin + "/browse/" + key;
-            console.logTrace("qrCodeImageUrl: " + qrCodeImageUrl);
             card.find(".qr-code").css("background-image", "url('" + qrCodeImageUrl + "')");
 
             //handle Site specifics
@@ -253,10 +208,8 @@
         }
 
         function fillCardWithJSONDataLRS(card, data) {
-            console.logInfo("Apply LRS Specifics");
             //Desired-Date
             var desiredDate = data.fields.desiredDate;
-            console.logDebug("desiredDate: " + desiredDate);
             if ( desiredDate ) {
                 var renderedDesiredDate = new Date(desiredDate).format('D d.m.');
                 card.find(".due-date").text(renderedDesiredDate);
@@ -271,8 +224,6 @@
 
             //https://docs.atlassian.com/jira/REST/latest/
             var url = '/rest/api/2/issue/' + issueKey + '?expand=renderedFields,names';
-            console.logDebug("IssueUrl: " + window.location.hostname + url);
-            console.logDebug("Issue: " + issueKey + " Loading...");
             return  jQuery.ajax({
                 type: 'GET',
                 url: url,
@@ -283,25 +234,14 @@
                     jQuery.each(responseData.names, function(key, value) {
                         if(key.startsWith("customfield_")){
                             var newFieldId = value.toCamelCase();
-                            console.logTrace("add new field: " + newFieldId +" with value from "+ key);
                             fields[value.toCamelCase()] = fields[key];
                         }
                     });
-                    console.logDebug("Issue: " + issueKey + " Loaded!");
                     callback(responseData);
                 },
                 data: {},
             });
         }
-
-
-
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
-
-        // http://www.cssdesk.com/T9hXg
 
         function printOverlayHTML(){
 
@@ -320,7 +260,6 @@
                      <div id="card-print-dialog-footer">
                      <div class="buttons">
                      <label style="margin-right:10px"><input id="card-scale-range" type="range" min="0.2" max="1.6" step="0.1" value="1.0" />Scale</label>
-                     <label style="margin-right:10px"><input id="hide-description-checkbox" type="checkbox"/>Hide Description</label>
                      <label style="margin-right:10px"><input id="multi-card-page-checkbox" type="checkbox"/>Multi Card Page</label>
                      <input id="card-print-dialog-print" type="button" class="aui-button aui-button-primary" value="Print" />
                      <a id="card-print-dialog-cancel" title="Cancel" class="cancel">Cancel</a>
@@ -331,23 +270,13 @@
                 }));
 
             // enable multe card page
-
             result.find("#multi-card-page-checkbox")
                 .click(function() {
                     endableMultiCardPage(this.checked);
                     return true;
                 });
 
-            // hide description
-
-            result.find("#hide-description-checkbox")
-                .click(function() {
-                    hideDescription(this.checked);
-                    return true;
-                });
-
             // scale card
-
             result.find("#card-scale-range").on("input", function() {
                 var printFrame = jQuery("#card-print-dialog-content-iframe");
                 var printWindow = printFrame[0].contentWindow;
@@ -357,7 +286,6 @@
             });
 
             // print
-
             result.find("#card-print-dialog-print")
                 .click(function(event){
                     print();
@@ -588,9 +516,6 @@
             return result;
         }
 
-
-        // http://www.cssdesk.com/scHcP
-
         function newPage(issueKey){
             var page = jQuery(document.createElement('div'))
                 .attr("id",issueKey)
@@ -603,17 +528,17 @@
                      <div class="card-header">
                      <div class="type-icon badge circular"></div>
                      <div class="key badge"></div>
-                     <div class="estimate badge circular " contenteditable="true"></div>
+                     <div class="estimate badge circular "></div>
                      <div class="due">
                      <div class="due-icon badge circular "></div>
-                     <div class="due-date badge" contenteditable="true"></div>
+                     <div class="due-date badge"></div>
                      </div>
                      </div>
                      <div class="card-content">
                      <div class="content-header">
-                     <span class="summary" contenteditable="true"></span>
+                     <span class="summary"></span>
                      </div>
-                     <div class="description" contenteditable="true"></div>
+                     <div class="description"></div>
                      </div>
                      <div class="card-footer">
                      <div class="assignee badge circular"></div>
@@ -638,7 +563,6 @@
                     /*!
                      * {
                      color: black;
-                     font-family:"Droid Serif";
                      }
                      body {
                      margin: 0;
@@ -765,7 +689,6 @@
                      position: relative;
                      float: left;
                      background-color: GREENYELLOW;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Objects.png);
                      background-repeat: no-repeat;
                      -webkit-background-size: 70%;
                      background-size: 70%;
@@ -775,15 +698,12 @@
 
                      .card[type="story"] .type-icon {
                      background-color: GOLD;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bulb.png);
                      }
                      .card[type="bug"] .type-icon {
                      background-color: CRIMSON;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bug.png);
                      }
                      .card[type="epic"] .type-icon {
                      background-color: ROYALBLUE;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Flash.png);
                      }
 
                      .estimate {
@@ -812,7 +732,6 @@
                      height: 2.5rem;
                      margin-top: 0.4rem;
                      background-color: MEDIUMPURPLE;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/AlarmClock.png);
                      background-repeat: no-repeat;
                      -webkit-background-size: 65%;
                      background-size: 65%;
@@ -836,20 +755,7 @@
                      font-size: 0.7rem;
                      line-height: 0.7rem;
                      }
-                     .attachment {
-                     position: relative;
-                     float: left;
-                     margin-left: 0.6rem;
-                     width: 2.1rem;
-                     height: 2.1rem;
-                     background-color: LIGHTSKYBLUE;
-                     background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/2f2f2f/attach-256.png);
-                     background-repeat: no-repeat;
-                     -webkit-background-size: 70%;
-                     background-size: 70%;
-                     background-position: center;
 
-                     }
                      .assignee {
                      position: relative;
                      float: right;
@@ -859,7 +765,6 @@
                      font-weight: bold;
                      font-size: 1.8rem;
                      line-height: 2.2rem;
-                     background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/aaaaaa/contacts-256.png);
                      background-repeat: no-repeat;
                      -webkit-background-size: cover;
                      background-size: cover;
@@ -904,10 +809,6 @@
             return result;
         }
 
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
         function appendScript(url, callback){
 
             var head = document.getElementsByTagName('head')[0];
@@ -922,10 +823,6 @@
             head.appendChild(script);
         }
 
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
         function addDeferred(deferredList){
             var deferred = new jQuery.Deferred()
             deferredList.push(deferred);
@@ -936,57 +833,10 @@
             jQuery.when.apply(jQuery, deferredList).done(callback);
         }
 
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
-
         function addJQueryFunctions() {
             //jQuery Extention
             jQuery.expr[':']['is'] = function(node, index, props){
                 return node.textContent == props[3];
-            }
-        }
-
-
-        function addConsoleFunctions() {
-
-            console.ERROR = 0;
-            console.WARN  = 1;
-            console.INFO  = 2;
-            console.DEBUG = 3;
-            console.TRACE = 4;
-
-            console.logLevel = console.INFO ;
-
-            console.logError = function(msg){
-                if(console.logLevel >= console.ERROR ) {
-                    console.log("ERROR: " + msg);
-                }
-            }
-
-            console.logWarn = function(msg){
-                if(console.logLevel >= console.WARN ) {
-                    console.log("WARN:  " + msg);
-                }
-            }
-
-            console.logInfo = function(msg){
-                if(console.logLevel >= console.INFO ) {
-                    console.log("INFO:  " + msg);
-                }
-            }
-
-            console.logDebug = function(msg){
-                if(console.logLevel >= console.DEBUG ) {
-                    console.log("DEBUG: " + msg);
-                }
-            }
-
-            console.logTrace = function(msg){
-                if(console.logLevel >= console.TRACE ) {
-                    console.log("TRACE: " + msg);
-                }
             }
         }
 
@@ -1121,6 +971,6 @@
         }
 
     } catch (err) {
-        console.logError(err.message);
+        console.log(err.message);
     };
 })();
