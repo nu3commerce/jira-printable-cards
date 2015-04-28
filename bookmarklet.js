@@ -1,6 +1,6 @@
 (function () {
-	var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
-	try {
+    var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
+    try {
 
         // load jQuery
         if (window.jQuery === undefined) {
@@ -519,8 +519,7 @@
                      </div>
                      <div class="card-header-right">
                      <div class="due">
-                     <div class="due-icon badge circular "></div>
-                     <div class="due-date badge"></div>
+                     <div class="due-date"></div>
                      </div>
                      </div>
                      </div>
@@ -536,7 +535,7 @@
                      <span class="epic-key"></span>
                      <span class="epic-name" contenteditable="true"></span>
                      </div>
-                     <div class="estimate badge circular "></div>
+                     <div class="estimate"></div>
                      </div>
                      </div>
                      */
@@ -550,7 +549,7 @@
                 .attr("type", "text/css")
                 .html(multilineString(function() {
                     /*!
-                    @import url(https://fonts.googleapis.com/css?family=Roboto);
+                     @import url(https://fonts.googleapis.com/css?family=Roboto);
                      * {
                      color: black;
                      font-family: Roboto, sans-serif;
@@ -575,46 +574,15 @@
                      border-bottom: 1px solid #999;
                      }
                      .card-header-right {
-    float: right;
-    border-left: 1px solid #999;
-    border-bottom: 1px solid #999;
+                     float: right;
+                     background: #ddd;
+                     border-left: 1px solid #999;
+                     border-bottom: 1px solid #999;
                      }
-                     .badge,
-                     .shadow {
-                     border-style: solid;
-                     border-color: #2f2f2f;
-                     border-top-width: 0.14rem;
-                     border-left-width: 0.14rem;
-                     border-bottom-width: 0.24rem;
-                     border-right-width: 0.24rem;
-                     -webkit-border-radius: 0.25rem;
-                     border-radius: 0.25rem;
-                     // -webkit-filter: drop-shadow(0px 5px 10px black)
-                     }
-                     .circular {
-                     -moz-border-radius: 50%;
-                     -webkit-border-radius: 50%;
-                     border-radius: 50%;
-                     }
-                     .badge {
-                     width: 3.2rem;
-                     height: 3.2rem;
-                     background: #d0d0d0;
-                     }
-
                      .card {
                      position: relative;
                      min-width: 17.0rem;
                      border: 1px solid #999;
-                     }
-                     .card-border {
-                     position: absolute;
-                     top:2.0rem;
-                     left:0.4rem;
-                     right:0.4rem;
-                     height: calc(100% - 4.0rem);
-                     background: #ffffff;
-
                      }
                      .card-header {
                      position: relative;
@@ -639,20 +607,18 @@
                      }
                      .summary {
                      font-weight: bold;
+                     text-transform: capitalize;
                      }
                      .description {
                      font-size: 0.6rem;
                      line-height: 0.6rem;
                      }
                      .key {
-                     position: absolute;
-                     float: left;
+                     display: inline-block;
                      width: auto;
                      min-width: 4.4rem;
                      height: 1.35rem;
-                     left: 3.0rem;
-                     margin-top: 1.2rem;
-                     padding-left: 0.7rem;
+                     padding-left: 0.4rem;
                      padding-right: 0.4rem;
                      text-align: center;
                      font-weight: bold;
@@ -660,9 +626,8 @@
                      line-height: 1.5rem;
                      }
                      .type-icon {
-                     position: relative;
-                     float: left;
-                     background-color: GREENYELLOW;
+                     display: inline-block
+                     background-color: #aeea00;
                      background-repeat: no-repeat;
                      -webkit-background-size: 70%;
                      background-size: 70%;
@@ -671,22 +636,17 @@
                      }
 
                      .card .type-icon.story {
-                     background-color: GOLD;
+                     background-color: #ffff00;
                      }
                      .card .type-icon.bug {
-                     background-color: CRIMSON;
+                     background-color: #b71c1c;
                      }
                      .card .type-icon.epic {
-                     background-color: ROYALBLUE;
+                     background-color: #304ffe;
                      }
 
                      .estimate {
-                     position: relative;
-                     float: left;
-                     left: -0.65rem;
-                     top:-1.5rem;
-                     height: 1.1rem;
-                     width: 1.1rem;
+                     display: inline-block
                      text-align: center;
                      font-weight: bold;
                      font-size: 0.9rem;
@@ -696,34 +656,15 @@
                      }
 
                      .due {
-                     position: relative;
-                     float: right;
-                     }
-                     .due-icon {
-                     position: relative;
-                     float:right;
-                     width: 2.5rem;
-                     height: 2.5rem;
-                     margin-top: 0.4rem;
-                     background-color: MEDIUMPURPLE;
-                     background-repeat: no-repeat;
-                     -webkit-background-size: 65%;
-                     background-size: 65%;
-                     background-position: center;
-                     z-index: 1;
+                     display: inline-block;
                      }
                      .due-date {
-                     position: relative;
-                     float: right;
-                     right: -0.6rem;
+                     display: inline-block
                      width: auto;
                      min-width: 2.8rem;
-                     height: auto;
                      margin-top: 1.3rem;
-                     padding-top: 0.2rem;
-                     padding-bottom: 0.2rem;
-                     padding-left: 0.3rem;
-                     padding-right: 0.6rem;
+                     padding-left: 0.7rem;
+                     padding-right: 0.7rem;
                      text-align: center;
                      font-weight: bold;
                      font-size: 0.7rem;
