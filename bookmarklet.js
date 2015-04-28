@@ -512,14 +512,16 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                     <div class="card-border"></div>
                      <div class="card-header">
+                     <div class="card-header-left">
                      <div class="type-icon badge circular"></div>
                      <div class="key badge"></div>
-                     <div class="estimate badge circular "></div>
+                     </div>
+                     <div class="card-header-right">
                      <div class="due">
                      <div class="due-icon badge circular "></div>
                      <div class="due-date badge"></div>
+                     </div>
                      </div>
                      </div>
                      <div class="card-content">
@@ -529,11 +531,12 @@
                      <div class="description"></div>
                      </div>
                      <div class="card-footer">
-                     <div class="assignee badge"></div>
-                     <div class="epic badge">
+                     <div class="assignee"></div>
+                     <div class="epic">
                      <span class="epic-key"></span>
                      <span class="epic-name" contenteditable="true"></span>
                      </div>
+                     <div class="estimate badge circular "></div>
                      </div>
                      </div>
                      */
@@ -565,7 +568,17 @@
                      clear: both;
                      height:0
                      }
-                     .card-border,
+                     .card-header-left {
+                     float: left;
+                     background: #ddd;
+                     border-right: 1px solid #999;
+                     border-bottom: 1px solid #999;
+                     }
+                     .card-header-right {
+    float: right;
+    border-left: 1px solid #999;
+    border-bottom: 1px solid #999;
+                     }
                      .badge,
                      .shadow {
                      border-style: solid;
@@ -592,6 +605,7 @@
                      .card {
                      position: relative;
                      min-width: 17.0rem;
+                     border: 1px solid #999;
                      }
                      .card-border {
                      position: absolute;
