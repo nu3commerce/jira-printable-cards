@@ -87,7 +87,6 @@
                 var deferred = addDeferred(deferredList);
                 loadCardDataJSON(issueKey, function(responseData) {
                     fillCardWithJSONData(page, responseData);
-                    console.log(responseData);
                     page.show();
                     resizeIframe(printFrame);
                     deferred.resolve();
@@ -139,7 +138,7 @@
 
             //Type
             var type = data.fields.issuetype.name.toLowerCase();
-            card.find(".card").attr("type", type);
+            card.find(".card").text(type);
 
             //Summary
             var summary = data.fields.summary;
@@ -149,7 +148,7 @@
             var assignee = data.fields.assignee;
             if ( assignee ) {
                 var displayName = assignee.displayName;
-                card.find(".assignee").text(displayName[0].toUpperCase());
+                card.find(".assignee").text(displayName);
             } else {
                 card.find(".assignee").addClass("hidden");
             }
