@@ -138,7 +138,7 @@
 
             //Type
             var type = data.fields.issuetype.name.toLowerCase();
-            card.find(".card").attr("type", type);
+            card.find(".type-icon badge").addClass(type);
 
             //Summary
             var summary = data.fields.summary;
