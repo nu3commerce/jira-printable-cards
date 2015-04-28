@@ -138,7 +138,7 @@
 
             //Type
             var type = data.fields.issuetype.name.toLowerCase();
-            card.find(".card").text(type);
+            card.find(".card").attr("type", type);
 
             //Summary
             var summary = data.fields.summary;
