@@ -138,7 +138,7 @@
 
             //Type
             var type = data.fields.issuetype.name.toLowerCase();
-            card.find(".type-icon.badge").addClass(type);
+            card.find(".card-header-left").addClass(type);
 
             //Summary
             var summary = data.fields.summary;
@@ -512,31 +512,29 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                     <div class="card-header">
-                     <div class="card-header-left">
-                     <div class="type-icon badge circular"></div>
-                     <div class="key badge"></div>
-                     </div>
-                     <div class="card-header-right">
-                     <div class="due">
-                     <div class="due-date"></div>
-                     </div>
-                     </div>
-                     </div>
-                     <div class="card-content">
-                     <div class="content-header">
-                     <span class="summary"></span>
-                     </div>
-                     <div class="description"></div>
-                     </div>
-                     <div class="card-footer">
-                     <div class="assignee"></div>
-                     <div class="epic">
-                     <span class="epic-key"></span>
-                     <span class="epic-name" contenteditable="true"></span>
-                     </div>
-                     <div class="estimate"></div>
-                     </div>
+                         <div class="card-header">
+                            <div class="card-header-left">
+                                <div class="key"></div>
+                            </div>
+                            <div class="card-header-right">
+                                <div class="due">
+                                    <div class="due-date"></div>
+                                </div>
+                            </div>
+                         </div>
+                         <div class="card-content">
+                            <div class="content-header">
+                                <span class="summary"></span>
+                            </div>
+                         </div>
+                         <div class="card-footer">
+                            <div class="assignee"></div>
+                            <div class="epic">
+                                <span class="epic-key"></span>
+                                <span class="epic-name" contenteditable="true"></span>
+                            </div>
+                            <div class="estimate"></div>
+                         </div>
                      </div>
                      */
                 }));
@@ -553,6 +551,7 @@
                      * {
                      color: black;
                      font-family: Roboto, sans-serif;
+                     font-size: 20px;
                      }
                      body {
                      margin: 0;
@@ -569,15 +568,13 @@
                      }
                      .card-header-left {
                      float: left;
-                     background: #ddd;
-                     border-right: 1px solid #999;
-                     border-bottom: 1px solid #999;
+                     background: #f7f7f7;
                      }
                      .card-header-right {
                      float: right;
-                     background: #ddd;
-                     border-left: 1px solid #999;
-                     border-bottom: 1px solid #999;
+                     background: #f7f7f7;
+                     border-left: 1px solid #ddd;
+                     border-bottom: 1px solid #ddd;
                      }
                      .card {
                      position: relative;
@@ -625,23 +622,14 @@
                      font-size: 1.0rem;
                      line-height: 1.5rem;
                      }
-                     .type-icon {
-                     display: inline-block
-                     background-color: #aeea00;
-                     background-repeat: no-repeat;
-                     -webkit-background-size: 70%;
-                     background-size: 70%;
-                     background-position: center;
-                     z-index: 1;
-                     }
 
-                     .card .type-icon.story {
+                     .card .card-header-left.story {
                      background-color: #ffff00;
                      }
-                     .card .type-icon.bug {
+                     .card .card-header-left.bug {
                      background-color: #b71c1c;
                      }
-                     .card .type-icon.epic {
+                     .card .card-header-left.epic {
                      background-color: #304ffe;
                      }
 
