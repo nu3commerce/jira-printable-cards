@@ -54,19 +54,6 @@
             printWindow.print();
         }
 
-        function hideDescription(hide){
-            var printFrame = jQuery("#card-print-dialog-content-iframe");
-            var printWindow = printFrame[0].contentWindow;
-            var printDocument = printWindow.document;
-            if(hide){
-                jQuery(".description", printDocument).hide();
-            } else {
-                jQuery(".description", printDocument).show();
-            }
-
-            resizeIframe(printFrame);
-        }
-
         function endableMultiCardPage(enable){
             var printFrame = jQuery("#card-print-dialog-content-iframe");
             var printWindow = printFrame[0].contentWindow;
@@ -100,6 +87,7 @@
                 var deferred = addDeferred(deferredList);
                 loadCardDataJSON(issueKey, function(responseData) {
                     fillCardWithJSONData(page, responseData);
+                    console.log(responseData);
                     page.show();
                     resizeIframe(printFrame);
                     deferred.resolve();
@@ -144,6 +132,7 @@
         }
 
         function fillCardWithJSONData(card, data) {
+
             //Key
             var key = data.key;
             card.find('.key').text(key);
