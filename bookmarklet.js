@@ -530,8 +530,6 @@
                      </div>
                      <div class="card-footer">
                      <div class="assignee badge"></div>
-                     <div class="qr-code badge"></div>
-                     <div class="attachment badge circular"></div>
                      <div class="epic badge">
                      <span class="epic-key"></span>
                      <span class="epic-name" contenteditable="true"></span>
@@ -549,7 +547,7 @@
                 .attr("type", "text/css")
                 .html(multilineString(function() {
                     /*!
-                    @import url(http://fonts.googleapis.com/css?family=Roboto);
+                    @import url(https://fonts.googleapis.com/css?family=Roboto);
                      * {
                      color: black;
                      font-family: Roboto, sans-serif;
