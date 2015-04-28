@@ -138,7 +138,7 @@
 
             //Type
             var type = data.fields.issuetype.name.toLowerCase();
-            card.find(".card-header-left").addClass(type);
+            card.find(".key").addClass(type);
 
             //Summary
             var summary = data.fields.summary;
@@ -513,7 +513,7 @@
                     /*!
                      <div class="card">
                         <div class="card-content">
-                            <span class="card-title>
+                            <span class="card-title">
                                 <span class="key"></span>
                                  <span class="estimate badge"></span>
                              </span>
