@@ -529,7 +529,7 @@
                      <div class="description"></div>
                      </div>
                      <div class="card-footer">
-                     <div class="assignee badge circular"></div>
+                     <div class="assignee badge"></div>
                      <div class="qr-code badge"></div>
                      <div class="attachment badge circular"></div>
                      <div class="epic badge">
@@ -549,8 +549,10 @@
                 .attr("type", "text/css")
                 .html(multilineString(function() {
                     /*!
+                    @import url(http://fonts.googleapis.com/css?family=Roboto);
                      * {
                      color: black;
+                     font-family: Roboto, sans-serif;
                      }
                      body {
                      margin: 0;
@@ -592,34 +594,6 @@
                      .card {
                      position: relative;
                      min-width: 17.0rem;
-
-                     }
-                     .author{
-
-
-                     line-height: 0.8rem;
-                     }
-                     .author-page {
-                     z-index: 999;
-                     position: absolute;
-                     top:2.5rem;
-                     right:0.55rem;
-                     font-size: 0.45rem;
-                     -webkit-transform-origin: 100% 100%;
-                     transform-origin: 100% 100%;
-                     -webkit-transform: rotate(-90deg);
-                     transform: rotate(-90deg);
-                     }
-                     .author-name {
-                     z-index: 0;
-                     position: absolute;
-                     top:3.26rem;
-                     right:-2.6rem;
-                     font-size: 0.35rem;
-                     -webkit-transform-origin: 0% 0%;
-                     transform-origin: 0% 0%;
-                     -webkit-transform: rotate(90deg);
-                     transform: rotate(90deg);
                      }
                      .card-border {
                      position: absolute;
@@ -684,13 +658,13 @@
                      z-index: 1;
                      }
 
-                     .card[type="story"] .type-icon {
+                     .card .type-icon.story {
                      background-color: GOLD;
                      }
-                     .card[type="bug"] .type-icon {
+                     .card .type-icon.bug {
                      background-color: CRIMSON;
                      }
-                     .card[type="epic"] .type-icon {
+                     .card .type-icon.epic {
                      background-color: ROYALBLUE;
                      }
 
@@ -747,31 +721,12 @@
                      .assignee {
                      position: relative;
                      float: right;
-                     width: 2.1rem;
-                     height: 2.1rem;
                      text-align: center;
                      font-weight: bold;
-                     font-size: 1.8rem;
-                     line-height: 2.2rem;
-                     background-repeat: no-repeat;
-                     -webkit-background-size: cover;
-                     background-size: cover;
-                     -webkit-background-size: 100%;
-                     background-size: 100%;
-                     -webkit-filter: contrast(150%) grayscale(100%);
-                     filter: contrast(150%) grayscale(100%);
-                     background-position: center;
+                     font-size: 1em;
+                     line-height: 1.5rem;
                      }
-                     .qr-code {
-                     position: relative;
-                     float: left;
-                     width: 2.1rem;
-                     height: 2.1rem;
-                     background-repeat: no-repeat;
-                     -webkit-background-size: cover;
-                     background-size: cover;
-                     background-position: center;
-                     }
+
                      .epic {
                      width: auto;
                      height: auto;
