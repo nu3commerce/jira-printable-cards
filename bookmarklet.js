@@ -574,6 +574,13 @@
                         border-radius: 2px;
                         min-width: 3rem;
                         padding: 0 6px;
+                        min-width: 3rem;
+                        text-align: center;
+                        font-size: 1rem;
+                        line-height: inherit;
+                        position: absolute;
+                        right: 15px;
+                        box-sizing: border-box;
                      }
                      .card-action {
                         border-top: 1px solid rgba(160, 160, 160, 0.2);
