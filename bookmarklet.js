@@ -247,7 +247,6 @@
                      </div>
                      <div id="card-print-dialog-footer">
                      <div class="buttons">
-                     <label style="margin-right:10px"><input id="card-scale-range" type="range" min="0.2" max="1.6" step="0.1" value="1.0" />Scale</label>
                      <label style="margin-right:10px"><input id="multi-card-page-checkbox" type="checkbox"/>Multi Card Page</label>
                      <input id="card-print-dialog-print" type="button" class="aui-button aui-button-primary" value="Print" />
                      <a id="card-print-dialog-cancel" title="Cancel" class="cancel">Cancel</a>
@@ -263,15 +262,6 @@
                     endableMultiCardPage(this.checked);
                     return true;
                 });
-
-            // scale card
-            result.find("#card-scale-range").on("input", function() {
-                var printFrame = jQuery("#card-print-dialog-content-iframe");
-                var printWindow = printFrame[0].contentWindow;
-                var printDocument = printWindow.document;
-                jQuery("HTML", printDocument).css("font-size", jQuery(this).val() +"cm");
-                resizeIframe(printFrame);
-            });
 
             // print
             result.find("#card-print-dialog-print")
@@ -586,6 +576,7 @@
                      .card-action {
                         border-top: 1px solid rgba(160, 160, 160, 0.2);
                         padding: 20px;
+                        font-size: 20px;
                      }
                      .card-action div {
                         display: inline-block;
