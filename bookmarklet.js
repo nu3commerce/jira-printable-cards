@@ -542,7 +542,6 @@
                      * {
                          color: black;
                          font-family: Roboto, sans-serif;
-                         font-size: 20px;
                      }
                      body {
                         margin: 0;
@@ -558,6 +557,7 @@
                         margin: 0.5rem 0 1rem 0;
                         background-color: #fff;
                         border-radius: 2px;
+                        max-width: 17rem;
                      }
                      .card-content {
                         padding: 20px;
@@ -565,7 +565,7 @@
                      }
                      .card-title {
                         line-height: 48px;
-                        font-size: 24px;
+                        font-size: 1rem;
                         font-weight: 300;
                      }
                      .badge {
@@ -576,7 +576,6 @@
                         padding: 0 6px;
                         min-width: 3rem;
                         text-align: center;
-                        font-size: 1rem;
                         line-height: inherit;
                         position: absolute;
                         right: 15px;
