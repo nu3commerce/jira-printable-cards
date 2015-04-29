@@ -557,11 +557,12 @@
                         margin: 0.5rem 0 1rem 0;
                         background-color: #fff;
                         border-radius: 2px;
-                        max-width: 17rem;
+                        width: 100%;
                      }
                      .card-content {
                         padding: 20px;
                         border-radius: 0 0 2px 2px;
+                        font-size: 20px;
                      }
                      .card-title {
                         line-height: 48px;
