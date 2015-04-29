@@ -534,7 +534,7 @@
                 .html(multilineString(function() {
                     /*!
                      @import url(https://fonts.googleapis.com/css?family=Roboto);
-                     @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css)
+                     @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
                      * {
                          color: black;
                          font-family: Roboto, sans-serif;
