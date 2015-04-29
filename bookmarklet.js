@@ -551,13 +551,14 @@
                      }
                      .card {
                         position: relative;
-                        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+                        border-top: 1px solid rgba(160, 160, 160, 0.2);
                         position: relative;
                         overflow: hidden;
                         margin: 0.5rem 0 1rem 0;
                         background-color: #fff;
                         border-radius: 2px;
                         width: 100%;
+                        box-sizing: border-box;
                      }
                      .card-content {
                         padding: 20px;
