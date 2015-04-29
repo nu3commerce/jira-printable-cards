@@ -551,7 +551,7 @@
                      }
                      .card {
                         position: relative;
-                        border-top: 1px solid rgba(160, 160, 160, 0.2);
+                        border: 1px solid rgba(160, 160, 160, 0.2);
                         position: relative;
                         overflow: hidden;
                         margin: 0.5rem 0 1rem 0;
