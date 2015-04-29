@@ -510,11 +510,16 @@
                             <p class="summary"></p>
                         </div>
                         <div class="card-action">
+                            <i class="fa fa-user"></i>
                             <div class="assignee"></div>
-                            <div class="epic">
-                                <span class="epic-key"></span>
-                                <span class="epic-name"></span>
-                            </div>
+
+                            <span style="float: right">
+                                <i class="fa fa-sitemap"></i>
+                                <div class="epic">
+                                    <span class="epic-key"></span>
+                                    <span class="epic-name"></span>
+                                </div>
+                            </span>
                         </div>
                      </div>
                      */
@@ -529,6 +534,7 @@
                 .html(multilineString(function() {
                     /*!
                      @import url(https://fonts.googleapis.com/css?family=Roboto);
+                     @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css)
                      * {
                          color: black;
                          font-family: Roboto, sans-serif;
@@ -562,9 +568,9 @@
                      }
                      .badge {
                         color: #fff;
-                        background-color: #26a69a;
+                        background-color: #000;
                         border-radius: 2px;
-                        min-width: 3rem;
+                        min-width: 2rem;
                         padding: 0 6px;
                         min-width: 3rem;
                         text-align: center;
