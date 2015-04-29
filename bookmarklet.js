@@ -557,7 +557,7 @@
                      }
                      .card-title {
                         line-height: 48px;
-                        font-size: 1rem;
+                        font-size: 20px;
                         font-weight: 300;
                      }
                      .badge {
@@ -572,6 +572,9 @@
                         position: absolute;
                         right: 15px;
                         box-sizing: border-box;
+                     }
+                     .summary {
+                        font-size: 1rem;
                      }
                      .card-action {
                         border-top: 1px solid rgba(160, 160, 160, 0.2);
