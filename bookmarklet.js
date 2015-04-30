@@ -1,11 +1,14 @@
+/* globals jQuery */
 (function () {
     var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
     try {
 
+        // load jQuery
         if (window.jQuery === undefined) {
             appendScript('//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js');
         }
 
+        // wait untill all scripts loaded
         jQuery(document).ready(function(){
             init();
             main();
@@ -37,7 +40,7 @@
 
             // open print preview
             jQuery("body").append(printOverlayHTML);
-            $printOverlay.prepend(printOverlayStyle);
+            $print.prepend(printOverlayStyle);
 
             jQuery("#card-print-dialog-title").text("Card Print   -   Loading " + issueKeyList.length + " issues...");
             renderCards(issueKeyList, function(){
@@ -143,24 +146,23 @@
             var summary = data.fields.summary;
             card.find('.summary').text(summary);
 
-            //
-            ////Assignee
-            //var assignee = data.fields.assignee;
-            //if ( assignee ) {
-            //    var displayName = assignee.displayName;
-            //    card.find(".assignee").text(displayName);
-            //} else {
-            //    card.find(".assignee").addClass("hidden");
-            //}
-            //
-            ////Due-Date
-            //var duedate = data.fields.duedate;
-            //if ( duedate ) {
-            //    var renderedDuedate = new Date(duedate).format('D d.m.');
-            //    card.find(".due-date").text(renderedDuedate);
-            //} else {
-            //    card.find(".due").addClass("hidden");
-            //}
+            //Assignee
+            var assignee = data.fields.assignee;
+            if ( assignee ) {
+                var displayName = assignee.displayName;
+                card.find(".assignee").text(displayName);
+            } else {
+                card.find(".assignee").addClass("hidden");
+            }
+
+            //Due-Date
+            var duedate = data.fields.duedate;
+            if ( duedate ) {
+                var renderedDuedate = new Date(duedate).format('D d.m.');
+                card.find(".due-date").text(renderedDuedate);
+            } else {
+                card.find(".due").addClass("hidden");
+            }
 
             //Story Points
             var storyPoints = data.fields.storyPoints;
@@ -171,20 +173,20 @@
             }
 
             //Epic
-            //var epicKey = data.fields.epicLink;
-            //if ( epicKey ) {
-            //    card.find(".epic-key").text(epicKey);
-            //    loadCardDataJSON(epicKey, function(responseData) {
-            //        var epicName = responseData.fields.epicName;
-            //        card.find(".epic-name").text(epicName);
-            //    }, false);
-            //} else {
-            //    card.find(".epic").addClass("hidden");
-            //}
+            var epicKey = data.fields.epicLink;
+            if ( epicKey ) {
+                card.find(".epic-key").text(epicKey);
+                loadCardDataJSON(epicKey, function(responseData) {
+                    var epicName = responseData.fields.epicName;
+                    card.find(".epic-name").text(epicName);
+                }, false);
+            } else {
+                card.find(".epic").addClass("hidden");
+            }
 
             //QR-Code
-            //var qrCodeImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=' + window.location.origin + "/browse/" + key;
-            //card.find(".qr-code").css("background-image", "url('" + qrCodeImageUrl + "')");
+            var qrCodeImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=' + window.location.origin + "/browse/" + key;
+            card.find(".qr-code").css("background-image", "url('" + qrCodeImageUrl + "')");
 
             //handle Site specifics
             switch (window.location.hostname) {
@@ -505,6 +507,7 @@
                         <div class="card-content">
                             <span class="card-title">
                                 <span class="key"></span>
+                                 <span class="estimate badge"></span>
                              </span>
                             <p class="summary"></p>
                         </div>
@@ -512,10 +515,13 @@
                             <i class="fa fa-user"></i>
                             <div class="assignee"></div>
 
-                            <div class="epic badge">
+                            <span style="float: right">
                                 <i class="fa fa-sitemap"></i>
-                                <span class="estimate"></span>
-                            </div>
+                                <div class="epic">
+                                    <span class="epic-key"></span>
+                                    <span class="epic-name"></span>
+                                </div>
+                            </span>
                         </div>
                      </div>
                      */
@@ -577,7 +583,6 @@
                      }
                      .summary {
                         font-size: 1rem;
-                        text-align: center;
                      }
                      .card-action {
                         border-top: 1px solid rgba(160, 160, 160, 0.2);
