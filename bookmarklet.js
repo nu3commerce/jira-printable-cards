@@ -1,5 +1,3 @@
-/* globals jQuery */
-
 (function () {
     var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
     try {
