@@ -1,4 +1,3 @@
-/* globals jQuery */
 (function () {
     var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
     try {
@@ -24,9 +23,8 @@
         }
 
         function main(){
-            var $printOverlay = jQuery("#card-print-overlay");
             //preconditions
-            if($printOverlay.length > 0){
+            if(jQuery("#card-print-overlay").length > 0){
                 alert("Print Card already opened!");
                 return;
             }
@@ -40,7 +38,7 @@
 
             // open print preview
             jQuery("body").append(printOverlayHTML);
-            $print.prepend(printOverlayStyle);
+            jQuery("#card-print-overlay").prepend(printOverlayStyle);
 
             jQuery("#card-print-dialog-title").text("Card Print   -   Loading " + issueKeyList.length + " issues...");
             renderCards(issueKeyList, function(){
