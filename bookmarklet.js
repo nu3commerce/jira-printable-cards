@@ -509,8 +509,6 @@
                             <p class="summary"></p>
                         </div>
                         <div class="card-action">
-                            <i class="fa fa-user"></i>
-                            <div class="assignee"></div>
 
                             <span style="float: right">
                                 <div class="badge">
@@ -580,9 +578,11 @@
                         font-size: 1rem;
                      }
                      .card-action {
-                        border-top: 1px solid rgba(160, 160, 160, 0.2);
                         padding: 20px;
-                        font-size: 20px;
+
+                     }
+                     .estimate {
+                        color: #fff;
                      }
                      .card-action div {
                         display: inline-block;
