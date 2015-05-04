@@ -570,8 +570,6 @@
                         min-width: 3rem;
                         text-align: center;
                         line-height: inherit;
-                        position: absolute;
-                        right: 15px;
                         box-sizing: border-box;
                      }
                      .summary {
