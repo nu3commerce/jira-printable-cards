@@ -510,11 +510,11 @@
                         </div>
                         <div class="card-action">
 
-                            <span style="float: right">
+
                                 <div class="badge">
                                     <span class="estimate"></span>
                                 </div>
-                            </span>
+                            
                         </div>
                      </div>
                      */
@@ -577,6 +577,7 @@
                      }
                      .card-action {
                         padding: 20px;
+                        text-align: right;
 
                      }
                      .estimate {
