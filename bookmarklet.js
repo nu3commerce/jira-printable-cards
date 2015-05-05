@@ -462,7 +462,8 @@
                      @media print {
 
                      .page {
-                     display: inline-block;
+                     float: left;
+                     width: 45%;
                      background: white;
                      border-style: none;
                      padding: 0.0cm;
@@ -549,7 +550,7 @@
                         margin: 0;
                         background-color: #fff;
                         border-radius: 2px;
-                        width: 50%;
+                        width: 100%;
                         box-sizing: border-box;
                         float: left;
                      }
