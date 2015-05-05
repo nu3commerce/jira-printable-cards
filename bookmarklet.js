@@ -462,13 +462,11 @@
                      @media print {
 
                      .page {
-                     float: left;
-                     width: 45%;
                      background: white;
                      border-style: none;
                      padding: 0.0cm;
                      margin: 0.0cm;
-                     margin-top: 0.5cm;
+                     margin-top: 0cm;
 
                      -webkit-box-shadow: none;
                      -moz-box-shadow: none;
@@ -550,7 +548,7 @@
                         margin: 0;
                         background-color: #fff;
                         border-radius: 2px;
-                        width: 100%;
+                        width: 50%;
                         box-sizing: border-box;
                         float: left;
                      }
