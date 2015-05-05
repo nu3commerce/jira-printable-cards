@@ -562,6 +562,9 @@
                         font-size: 16px;
                         font-weight: 300;
                      }
+                     .key {
+                        font-size: 0.75rem;
+                     }
                      .badge {
                         color: #fff;
                         background-color: #000;
