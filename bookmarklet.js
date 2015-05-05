@@ -514,7 +514,7 @@
                                 <div class="badge">
                                     <span class="estimate"></span>
                                 </div>
-                            
+
                         </div>
                      </div>
                      */
@@ -548,8 +548,9 @@
                         margin: 0.5rem 0 1rem 0;
                         background-color: #fff;
                         border-radius: 2px;
-                        width: 100%;
+                        width: 45%;
                         box-sizing: border-box;
+                        display: inline-block;
                      }
                      .card-content {
                         padding: 20px;
