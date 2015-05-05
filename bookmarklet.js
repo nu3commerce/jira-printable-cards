@@ -563,7 +563,7 @@
                         font-weight: 300;
                      }
                      .key {
-                        font-size: 0.75rem;
+                        font-size: 1rem;
                      }
                      .badge {
                         color: #fff;
@@ -577,7 +577,7 @@
                         box-sizing: border-box;
                      }
                      .summary {
-                        font-size: 0.75rem;
+                        font-size: 1rem;
                      }
                      .card-action {
                         padding: 20px;
