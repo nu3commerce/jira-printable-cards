@@ -15,14 +15,10 @@
 
         function init(){
             addJQueryFunctions();
-            addConsoleFunctions();
             addStringFunctions();
             addDateFunctions();
 
             printScopeDeviderToken = "<b>Attachment</b>";
-
-            console.logLevel = console.INFO;
-
             resourceOrigin = hostOrigin+ "resources/";
         }
 
@@ -58,19 +54,6 @@
             printWindow.print();
         }
 
-        function hideDescription(hide){
-            var printFrame = jQuery("#card-print-dialog-content-iframe");
-            var printWindow = printFrame[0].contentWindow;
-            var printDocument = printWindow.document;
-            if(hide){
-                jQuery(".description", printDocument).hide();
-            } else {
-                jQuery(".description", printDocument).show();
-            }
-
-            resizeIframe(printFrame);
-        }
-
         function endableMultiCardPage(enable){
             var printFrame = jQuery("#card-print-dialog-content-iframe");
             var printWindow = printFrame[0].contentWindow;
@@ -94,8 +77,6 @@
             jQuery("head", printDocument).append(printPanelPageCSS());
             jQuery("head", printDocument).append(printPanelCardCSS());
 
-            console.logInfo("load " + issueKeyList.length + " issues...");
-
             var deferredList = [];
 
             issueKeyList.each(function(position, issueKey) {
@@ -111,16 +92,13 @@
                     deferred.resolve();
                 });
             });
-            console.logInfo("wait for issues loaded...");
 
             applyDeferred(deferredList,function() {
-                console.logInfo("...all issues loaded.");
+
                 jQuery(printWindow).load(function(){
-                    console.logInfo("...all resources loaded.");
                     callback();
-                })
+                });
                 printDocument.close();
-                console.logInfo("wait for resources loaded...");
             });
         }
 
@@ -153,71 +131,39 @@
         }
 
         function fillCardWithJSONData(card, data) {
+
             //Key
             var key = data.key;
-            console.logDebug("key: " + key);
             card.find('.key').text(key);
 
             //Type
-            var type = data.fields.issuetype.name.toLowerCase();
-            console.logDebug("type: " + type);
-            card.find(".card").attr("type", type);
+            //var type = data.fields.issuetype.name.toLowerCase();
+            //card.find(".key").addClass(type);
 
             //Summary
             var summary = data.fields.summary;
-            console.logDebug("summary: " + summary);
             card.find('.summary').text(summary);
 
-            //Description
-            var description = data.renderedFields.description;
-            console.logDebug("description: " + description);
-            card.find('.description').html(description);
-
             //Assignee
-            var assignee = data.fields.assignee;
-            console.logDebug("assignee: " + assignee);
-            if ( assignee ) {
-                var avatarUrl = assignee.avatarUrls['48x48'];
-                if(avatarUrl.indexOf("ownerId=") < 0){
-                    var displayName = assignee.displayName;
-                    card.find(".assignee").text(displayName[0].toUpperCase());
-                }
-                else {
-                    card.find(".assignee").css("background-image", "url('" + avatarUrl + "')");
-                }
-            } else {
-                card.find(".assignee").addClass("hidden");
-            }
+            //var assignee = data.fields.assignee;
+            //if ( assignee ) {
+            //    var displayName = assignee.displayName;
+            //    card.find(".assignee").text(displayName);
+            //} else {
+            //    card.find(".assignee").addClass("hidden");
+            //}
 
             //Due-Date
-            var duedate = data.fields.duedate;
-            console.logDebug("duedate: " + duedate);
-            if ( duedate ) {
-                var renderedDuedate = new Date(duedate).format('D d.m.');
-                card.find(".due-date").text(renderedDuedate);
-            } else {
-                card.find(".due").addClass("hidden");
-            }
-
-            //Attachment
-            var hasAttachment = false;
-            var indexOfPrintScopeDeviderToken =  description.indexOf(printScopeDeviderToken);
-            if (indexOfPrintScopeDeviderToken >= 0) {
-                var descriptionWithoutAttachment = description.substring(0, indexOfPrintScopeDeviderToken);
-                card.find('.description').html(descriptionWithoutAttachment);
-                hasAttachment = true;
-            } else if (data.fields.attachment.length > 0) {
-                hasAttachment = true;
-            }
-            console.logDebug("hasAttachment: " + hasAttachment);
-            if ( hasAttachment ) {
-            } else{
-                card.find('.attachment').addClass('hidden');
-            }
+            //var duedate = data.fields.duedate;
+            //if ( duedate ) {
+            //    var renderedDuedate = new Date(duedate).format('D d.m.');
+            //    card.find(".due-date").text(renderedDuedate);
+            //} else {
+            //    card.find(".due").addClass("hidden");
+            //}
 
             //Story Points
             var storyPoints = data.fields.storyPoints;
-            console.logDebug("storyPoints: " + storyPoints);
             if (storyPoints) {
                 card.find(".estimate").text(storyPoints);
             } else {
@@ -225,23 +171,20 @@
             }
 
             //Epic
-            var epicKey = data.fields.epicLink;
-            console.logDebug("epicKey: " + epicKey);
-            if ( epicKey ) {
-                card.find(".epic-key").text(epicKey);
-                loadCardDataJSON(epicKey, function(responseData) {
-                    var epicName = responseData.fields.epicName;
-                    console.logTrace("epicName: " + epicName);
-                    card.find(".epic-name").text(epicName);
-                }, false);
-            } else {
-                card.find(".epic").addClass("hidden");
-            }
+            //var epicKey = data.fields.epicLink;
+            //if ( epicKey ) {
+            //    card.find(".epic-key").text(epicKey);
+            //    loadCardDataJSON(epicKey, function(responseData) {
+            //        var epicName = responseData.fields.epicName;
+            //        card.find(".epic-name").text(epicName);
+            //    }, false);
+            //} else {
+            //    card.find(".epic").addClass("hidden");
+            //}
 
             //QR-Code
-            var qrCodeImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=' + window.location.origin + "/browse/" + key;
-            console.logTrace("qrCodeImageUrl: " + qrCodeImageUrl);
-            card.find(".qr-code").css("background-image", "url('" + qrCodeImageUrl + "')");
+            //var qrCodeImageUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=' + window.location.origin + "/browse/" + key;
+            //card.find(".qr-code").css("background-image", "url('" + qrCodeImageUrl + "')");
 
             //handle Site specifics
             switch (window.location.hostname) {
@@ -253,10 +196,8 @@
         }
 
         function fillCardWithJSONDataLRS(card, data) {
-            console.logInfo("Apply LRS Specifics");
             //Desired-Date
             var desiredDate = data.fields.desiredDate;
-            console.logDebug("desiredDate: " + desiredDate);
             if ( desiredDate ) {
                 var renderedDesiredDate = new Date(desiredDate).format('D d.m.');
                 card.find(".due-date").text(renderedDesiredDate);
@@ -271,8 +212,6 @@
 
             //https://docs.atlassian.com/jira/REST/latest/
             var url = '/rest/api/2/issue/' + issueKey + '?expand=renderedFields,names';
-            console.logDebug("IssueUrl: " + window.location.hostname + url);
-            console.logDebug("Issue: " + issueKey + " Loading...");
             return  jQuery.ajax({
                 type: 'GET',
                 url: url,
@@ -283,25 +222,14 @@
                     jQuery.each(responseData.names, function(key, value) {
                         if(key.startsWith("customfield_")){
                             var newFieldId = value.toCamelCase();
-                            console.logTrace("add new field: " + newFieldId +" with value from "+ key);
                             fields[value.toCamelCase()] = fields[key];
                         }
                     });
-                    console.logDebug("Issue: " + issueKey + " Loaded!");
                     callback(responseData);
                 },
                 data: {},
             });
         }
-
-
-
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
-
-        // http://www.cssdesk.com/T9hXg
 
         function printOverlayHTML(){
 
@@ -319,8 +247,6 @@
                      </div>
                      <div id="card-print-dialog-footer">
                      <div class="buttons">
-                     <label style="margin-right:10px"><input id="card-scale-range" type="range" min="0.2" max="1.6" step="0.1" value="1.0" />Scale</label>
-                     <label style="margin-right:10px"><input id="hide-description-checkbox" type="checkbox"/>Hide Description</label>
                      <label style="margin-right:10px"><input id="multi-card-page-checkbox" type="checkbox"/>Multi Card Page</label>
                      <input id="card-print-dialog-print" type="button" class="aui-button aui-button-primary" value="Print" />
                      <a id="card-print-dialog-cancel" title="Cancel" class="cancel">Cancel</a>
@@ -331,33 +257,13 @@
                 }));
 
             // enable multe card page
-
             result.find("#multi-card-page-checkbox")
                 .click(function() {
                     endableMultiCardPage(this.checked);
                     return true;
                 });
 
-            // hide description
-
-            result.find("#hide-description-checkbox")
-                .click(function() {
-                    hideDescription(this.checked);
-                    return true;
-                });
-
-            // scale card
-
-            result.find("#card-scale-range").on("input", function() {
-                var printFrame = jQuery("#card-print-dialog-content-iframe");
-                var printWindow = printFrame[0].contentWindow;
-                var printDocument = printWindow.document;
-                jQuery("HTML", printDocument).css("font-size", jQuery(this).val() +"cm");
-                resizeIframe(printFrame);
-            });
-
             // print
-
             result.find("#card-print-dialog-print")
                 .click(function(event){
                     print();
@@ -560,7 +466,7 @@
                      border-style: none;
                      padding: 0.0cm;
                      margin: 0.0cm;
-                     margin-top: 1.0cm;
+                     margin-top: 0cm;
 
                      -webkit-box-shadow: none;
                      -moz-box-shadow: none;
@@ -588,9 +494,6 @@
             return result;
         }
 
-
-        // http://www.cssdesk.com/scHcP
-
         function newPage(issueKey){
             var page = jQuery(document.createElement('div'))
                 .attr("id",issueKey)
@@ -599,31 +502,20 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                     <div class="card-border"></div>
-                     <div class="card-header">
-                     <div class="type-icon badge circular"></div>
-                     <div class="key badge"></div>
-                     <div class="estimate badge circular " contenteditable="true"></div>
-                     <div class="due">
-                     <div class="due-icon badge circular "></div>
-                     <div class="due-date badge" contenteditable="true"></div>
-                     </div>
-                     </div>
-                     <div class="card-content">
-                     <div class="content-header">
-                     <span class="summary" contenteditable="true"></span>
-                     </div>
-                     <div class="description" contenteditable="true"></div>
-                     </div>
-                     <div class="card-footer">
-                     <div class="assignee badge circular"></div>
-                     <div class="qr-code badge"></div>
-                     <div class="attachment badge circular"></div>
-                     <div class="epic badge">
-                     <span class="epic-key"></span>
-                     <span class="epic-name" contenteditable="true"></span>
-                     </div>
-                     </div>
+                        <div class="card-content">
+                            <span class="card-title">
+                                <span class="key"></span>
+                             </span>
+                            <p class="summary"></p>
+                        </div>
+                        <div class="card-action">
+
+
+                                <div class="badge">
+                                    <span class="estimate"></span>
+                                </div>
+
+                        </div>
                      </div>
                      */
                 }));
@@ -636,277 +528,74 @@
                 .attr("type", "text/css")
                 .html(multilineString(function() {
                     /*!
+                     @import url(https://fonts.googleapis.com/css?family=Roboto);
+                     @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
                      * {
-                     color: black;
-                     font-family:"Droid Serif";
+                         color: black;
+                         font-family: Roboto, sans-serif;
                      }
                      body {
-                     margin: 0;
+                        margin: 0;
                      }
                      .hidden {
-                     visibility: hidden;
+                        visibility: hidden;
                      }
-                     .card-header:after,
-                     .card-footer:after {
-                     content:" ";
-                     display: block;
-                     clear: both;
-                     height:0
-                     }
-                     .card-border,
-                     .badge,
-                     .shadow {
-                     border-style: solid;
-                     border-color: #2f2f2f;
-                     border-top-width: 0.14rem;
-                     border-left-width: 0.14rem;
-                     border-bottom-width: 0.24rem;
-                     border-right-width: 0.24rem;
-                     -webkit-border-radius: 0.25rem;
-                     border-radius: 0.25rem;
-                     // -webkit-filter: drop-shadow(0px 5px 10px black)
-                     }
-                     .circular {
-                     -moz-border-radius: 50%;
-                     -webkit-border-radius: 50%;
-                     border-radius: 50%;
-                     }
-                     .badge {
-                     width: 3.2rem;
-                     height: 3.2rem;
-                     background: #d0d0d0;
-                     }
-
                      .card {
-                     position: relative;
-                     min-width: 17.0rem;
-
-                     }
-                     .author{
-
-
-                     line-height: 0.8rem;
-                     }
-                     .author-page {
-                     z-index: 999;
-                     position: absolute;
-                     top:2.5rem;
-                     right:0.55rem;
-                     font-size: 0.45rem;
-                     -webkit-transform-origin: 100% 100%;
-                     transform-origin: 100% 100%;
-                     -webkit-transform: rotate(-90deg);
-                     transform: rotate(-90deg);
-                     }
-                     .author-name {
-                     z-index: 0;
-                     position: absolute;
-                     top:3.26rem;
-                     right:-2.6rem;
-                     font-size: 0.35rem;
-                     -webkit-transform-origin: 0% 0%;
-                     transform-origin: 0% 0%;
-                     -webkit-transform: rotate(90deg);
-                     transform: rotate(90deg);
-                     }
-                     .card-border {
-                     position: absolute;
-                     top:2.0rem;
-                     left:0.4rem;
-                     right:0.4rem;
-                     height: calc(100% - 4.0rem);
-                     background: #ffffff;
-
-                     }
-                     .card-header {
-                     position: relative;
+                        position: relative;
+                        border: 1px solid rgba(160, 160, 160, 0.2);
+                        position: relative;
+                        overflow: hidden;
+                        margin: 0;
+                        background-color: #fff;
+                        border-radius: 2px;
+                        width: 75%;
+                        box-sizing: border-box;
+                        float: left;
                      }
                      .card-content {
-                     position: relative;
-                     margin-top: 0.3rem;
-                     margin-left: 1.0rem;
-                     margin-right: 1.1rem;
-                     margin-bottom: 0.2rem;
-                     min-height: 1.2rem;
+                        padding: 20px;
+                        border-radius: 0 0 2px 2px;
+                        font-size: 20px;
                      }
-                     .content-header {
-                     position: relative;
-                     font-size: 1.1rem;
-                     line-height: 1.1rem;
-                     margin-bottom: 0.6rem;
-                     }
-                     .card-footer {
-                     position: relative;
-                     page-break-inside: avoid;
-                     }
-                     .summary {
-                     font-weight: bold;
-                     }
-                     .description {
-                     font-size: 0.6rem;
-                     line-height: 0.6rem;
+                     .card-title {
+                        line-height: 48px;
+                        font-size: 16px;
+                        font-weight: 300;
                      }
                      .key {
-                     position: absolute;
-                     float: left;
-                     width: auto;
-                     min-width: 4.4rem;
-                     height: 1.35rem;
-                     left: 3.0rem;
-                     margin-top: 1.2rem;
-                     padding-left: 0.7rem;
-                     padding-right: 0.4rem;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 1.0rem;
-                     line-height: 1.5rem;
+                        font-size: 1rem;
                      }
-                     .type-icon {
-                     position: relative;
-                     float: left;
-                     background-color: GREENYELLOW;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Objects.png);
-                     background-repeat: no-repeat;
-                     -webkit-background-size: 70%;
-                     background-size: 70%;
-                     background-position: center;
-                     z-index: 1;
+                     .badge {
+                        color: #fff;
+                        background-color: #000;
+                        border-radius: 2px;
+                        min-width: 2rem;
+                        padding: 0 6px;
+                        min-width: 3rem;
+                        text-align: center;
+                        line-height: inherit;
+                        box-sizing: border-box;
                      }
+                     .summary {
+                        font-size: 1rem;
+                     }
+                     .card-action {
+                        padding: 20px;
+                        text-align: right;
 
-                     .card[type="story"] .type-icon {
-                     background-color: GOLD;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bulb.png);
                      }
-                     .card[type="bug"] .type-icon {
-                     background-color: CRIMSON;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bug.png);
-                     }
-                     .card[type="epic"] .type-icon {
-                     background-color: ROYALBLUE;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Flash.png);
-                     }
-
                      .estimate {
-                     position: relative;
-                     float: left;
-                     left: -0.65rem;
-                     top:-1.5rem;
-                     height: 1.1rem;
-                     width: 1.1rem;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 0.9rem;
-                     line-height: 1.15rem;
-                     margin-top:1.5rem;
-                     z-index: 999;
+                        color: #fff;
                      }
-
-                     .due {
-                     position: relative;
-                     float: right;
-                     }
-                     .due-icon {
-                     position: relative;
-                     float:right;
-                     width: 2.5rem;
-                     height: 2.5rem;
-                     margin-top: 0.4rem;
-                     background-color: MEDIUMPURPLE;
-                     background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/AlarmClock.png);
-                     background-repeat: no-repeat;
-                     -webkit-background-size: 65%;
-                     background-size: 65%;
-                     background-position: center;
-                     z-index: 1;
-                     }
-                     .due-date {
-                     position: relative;
-                     float: right;
-                     right: -0.6rem;
-                     width: auto;
-                     min-width: 2.8rem;
-                     height: auto;
-                     margin-top: 1.3rem;
-                     padding-top: 0.2rem;
-                     padding-bottom: 0.2rem;
-                     padding-left: 0.3rem;
-                     padding-right: 0.6rem;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 0.7rem;
-                     line-height: 0.7rem;
-                     }
-                     .attachment {
-                     position: relative;
-                     float: left;
-                     margin-left: 0.6rem;
-                     width: 2.1rem;
-                     height: 2.1rem;
-                     background-color: LIGHTSKYBLUE;
-                     background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/2f2f2f/attach-256.png);
-                     background-repeat: no-repeat;
-                     -webkit-background-size: 70%;
-                     background-size: 70%;
-                     background-position: center;
-
-                     }
-                     .assignee {
-                     position: relative;
-                     float: right;
-                     width: 2.1rem;
-                     height: 2.1rem;
-                     text-align: center;
-                     font-weight: bold;
-                     font-size: 1.8rem;
-                     line-height: 2.2rem;
-                     background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/aaaaaa/contacts-256.png);
-                     background-repeat: no-repeat;
-                     -webkit-background-size: cover;
-                     background-size: cover;
-                     -webkit-background-size: 100%;
-                     background-size: 100%;
-                     -webkit-filter: contrast(150%) grayscale(100%);
-                     filter: contrast(150%) grayscale(100%);
-                     background-position: center;
-                     }
-                     .qr-code {
-                     position: relative;
-                     float: left;
-                     width: 2.1rem;
-                     height: 2.1rem;
-                     background-repeat: no-repeat;
-                     -webkit-background-size: cover;
-                     background-size: cover;
-                     background-position: center;
-                     }
-                     .epic {
-                     width: auto;
-                     height: auto;
-                     position: relative;
-                     float:right;
-                     margin-right:0.6rem;
-                     padding-top: 0.2rem;
-                     padding-bottom: 0.2rem;
-                     padding-left: 0.3rem;
-                     padding-right: 0.3rem;
-                     text-align: left;
-                     font-size: 0.7rem;
-                     line-height: 0.7rem;
-                     max-width: calc( 100% - 10.2rem);
-                     }
-                     .epic-key {
-                     }
-                     .epic-name {
-                     font-weight: bold;
+                     .card-action div {
+                        display: inline-block;
+                        margin-right: 20px;
+                        text-transform: uppercase;
                      }
                      */
                 }).replace(/{RESOURCE_ORIGIN}/g, resourceOrigin));
             return result;
         }
-
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
 
         function appendScript(url, callback){
 
@@ -922,12 +611,8 @@
             head.appendChild(script);
         }
 
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
         function addDeferred(deferredList){
-            var deferred = new jQuery.Deferred()
+            var deferred = new jQuery.Deferred();
             deferredList.push(deferred);
             return deferred;
         }
@@ -936,57 +621,10 @@
             jQuery.when.apply(jQuery, deferredList).done(callback);
         }
 
-        //############################################################################################################################
-        //############################################################################################################################
-        //############################################################################################################################
-
-
         function addJQueryFunctions() {
             //jQuery Extention
             jQuery.expr[':']['is'] = function(node, index, props){
                 return node.textContent == props[3];
-            }
-        }
-
-
-        function addConsoleFunctions() {
-
-            console.ERROR = 0;
-            console.WARN  = 1;
-            console.INFO  = 2;
-            console.DEBUG = 3;
-            console.TRACE = 4;
-
-            console.logLevel = console.INFO ;
-
-            console.logError = function(msg){
-                if(console.logLevel >= console.ERROR ) {
-                    console.log("ERROR: " + msg);
-                }
-            }
-
-            console.logWarn = function(msg){
-                if(console.logLevel >= console.WARN ) {
-                    console.log("WARN:  " + msg);
-                }
-            }
-
-            console.logInfo = function(msg){
-                if(console.logLevel >= console.INFO ) {
-                    console.log("INFO:  " + msg);
-                }
-            }
-
-            console.logDebug = function(msg){
-                if(console.logLevel >= console.DEBUG ) {
-                    console.log("DEBUG: " + msg);
-                }
-            }
-
-            console.logTrace = function(msg){
-                if(console.logLevel >= console.TRACE ) {
-                    console.log("TRACE: " + msg);
-                }
             }
         }
 
@@ -1121,6 +759,6 @@
         }
 
     } catch (err) {
-        console.logError(err.message);
+        console.log(err.message);
     };
 })();
