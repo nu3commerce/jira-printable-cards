@@ -574,7 +574,7 @@
                         box-sizing: border-box;
                      }
                      .summary {
-                        font-size: 1rem;
+                        font-size: 0.75rem;
                      }
                      .card-action {
                         padding: 20px;
