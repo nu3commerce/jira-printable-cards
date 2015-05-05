@@ -548,7 +548,7 @@
                         margin: 0;
                         background-color: #fff;
                         border-radius: 2px;
-                        width: 50%;
+                        width: 75%;
                         box-sizing: border-box;
                         float: left;
                      }
