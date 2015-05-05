@@ -550,7 +550,7 @@
                         border-radius: 2px;
                         width: 45%;
                         box-sizing: border-box;
-                        display: inline-block;
+                        float: left;
                      }
                      .card-content {
                         padding: 20px;
@@ -559,7 +559,7 @@
                      }
                      .card-title {
                         line-height: 48px;
-                        font-size: 20px;
+                        font-size: 16px;
                         font-weight: 300;
                      }
                      .badge {
