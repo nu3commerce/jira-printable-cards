@@ -462,11 +462,12 @@
                      @media print {
 
                      .page {
+                     display: inline-block;
                      background: white;
                      border-style: none;
                      padding: 0.0cm;
                      margin: 0.0cm;
-                     margin-top: 1.0cm;
+                     margin-top: 0.5cm;
 
                      -webkit-box-shadow: none;
                      -moz-box-shadow: none;
@@ -545,7 +546,7 @@
                         border: 1px solid rgba(160, 160, 160, 0.2);
                         position: relative;
                         overflow: hidden;
-                        margin: 0.5rem 0 1rem 0;
+                        margin: 0;
                         background-color: #fff;
                         border-radius: 2px;
                         width: 50%;
