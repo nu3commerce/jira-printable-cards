@@ -62,9 +62,6 @@
                 var printFrame = jQuery("#card-print-dialog-content-iframe");
                 var printWindow = printFrame[0].contentWindow;
                 var printDocument = printWindow.document;
-                if (isProd) {
-                    ga('send', 'event', 'button', 'click', 'print', jQuery(".card", printDocument).length);
-                }
                 var currentScale = jQuery("html", printDocument).css("font-size").replace("px", "");
                 printWindow.matchMedia("print").addListener(function() {
 
