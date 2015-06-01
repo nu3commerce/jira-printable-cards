@@ -15,12 +15,6 @@
 
         function handleError(err){
             console.log("ERROR: " + err.stack);
-            if (isProd) {
-                ga('send', 'exception', {
-                    'exDescription': err.message,
-                    'exFatal': true
-                });
-            }
         }
 
         function init(){
