@@ -49,16 +49,45 @@
 
         function print() {
             try {
+                var rowCount = jQuery("#rowCount").val();
+                var columnCount = jQuery("#columnCount").val();
+                var scale = jQuery("#card-scale-range").val();
+                var singleCard = jQuery("#single-card-page-checkbox").is(':checked');
+                var hideDescription = jQuery("#hide-description-checkbox").is(':checked');
+
                 var printFrame = jQuery("#card-print-dialog-content-iframe");
                 var printWindow = printFrame[0].contentWindow;
                 var printDocument = printWindow.document;
+                if (isProd) {
+                    ga('send', 'event', 'button', 'click', 'print', jQuery(".card", printDocument).length);
+                }
                 var currentScale = jQuery("html", printDocument).css("font-size").replace("px", "");
                 printWindow.matchMedia("print").addListener(function() {
 
                     var pageWidth = jQuery("body", printDocument).outerWidth();
                     var cardWidth = jQuery(".card", printDocument).outerWidth();
 
+                    var newScale = currentScale * pageWidth / cardWidth;
+
+                    //jQuery("html", printDocument).css("font-size",newScale +"px");
                 });
+
+                /////////////////////////////////////////
+
+                printWindow.addEventListener("resize", refreshCard);
+                printWindow.matchMedia("print").addListener(refreshCard);
+
+                function refreshCard() {
+                    var cardElements = printDocument.querySelectorAll(".card");
+                    forEach(cardElements, function (cardElement) {
+                        var cardContent = cardElement.querySelectorAll(".card-body")[0];
+                        if (cardContent.scrollHeight > cardContent.offsetHeight) {
+                            cardContent.classList.add("zigzag");
+                        } else {
+                            cardContent.classList.remove("zigzag");
+                        }
+                    });
+                }
 
                 function forEach(array, callback) {
                     for (i = 0; i < array.length; i++) {
@@ -66,10 +95,12 @@
                     }
                 }
 
+                /////////////////////////////////////////
+
                 printWindow.print();
                 jQuery("html", printDocument).css("font-size",currentScale +"px");
             } catch (err) {
-                console.log(err);
+                handleError(err);
             }
         }
 
