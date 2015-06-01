@@ -63,18 +63,6 @@
                 printWindow.addEventListener("resize", refreshCard);
                 printWindow.matchMedia("print").addListener(refreshCard);
 
-                function refreshCard() {
-                    var cardElements = printDocument.querySelectorAll(".card");
-                    forEach(cardElements, function (cardElement) {
-                        var cardContent = cardElement.querySelectorAll(".card-body")[0];
-                        if (cardContent.scrollHeight > cardContent.offsetHeight) {
-                            cardContent.classList.add("zigzag");
-                        } else {
-                            cardContent.classList.remove("zigzag");
-                        }
-                    });
-                }
-
                 function forEach(array, callback) {
                     for (i = 0; i < array.length; i++) {
                         callback(array[i]);
