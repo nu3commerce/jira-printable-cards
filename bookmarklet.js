@@ -423,6 +423,7 @@
                     /*!
                      HTML {
                      font-size: 1.0cm;
+                     overflow: hidden;
                      }
                      .page {
                      position: relative;
@@ -439,25 +440,16 @@
                      background:white;
 
                      -webkit-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
-                     -moz-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
                      box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
 
                      border-style: solid;
                      border-color: #bfbfbf;
                      border-width: 0.05cm;
-                     -moz-border-radius: 0.1cm;
                      -webkit-border-radius: 0.1cm;
                      border-radius: 0.1cm;
 
                      overflow: hidden;
-
                      }
-
-                     .multiCardPage {
-                     page-break-after: avoid;
-                     }
-
-
 
                      @media print {
 
@@ -466,25 +458,22 @@
                      border-style: none;
                      padding: 0.0cm;
                      margin: 0.0cm;
-                     margin-top: 0cm;
 
                      -webkit-box-shadow: none;
-                     -moz-box-shadow: none;
                      box-shadow: none;
 
                      -webkit-print-color-adjust:exact;
                      print-color-adjust: exact;
-
-                     -webkit-filter:opacity(1.0);
-                     filter:opacity(1.0);
                      }
 
-                     .page:first-of-type {
-                     margin-top: 0cm;
+                     .multiCardPage {
+                     height: auto;
+                     margin-bottom: 1.0cm;
+                     page-break-after: avoid;
                      }
 
                      .page:last-of-type {
-                     page-break-after: auto;
+                     page-break-after: avoid;
                      }
 
                      }
