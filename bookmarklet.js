@@ -423,6 +423,7 @@
                     /*!
                      HTML {
                      font-size: 1.0cm;
+                     overflow: hidden;
                      }
                      .page {
                      position: relative;
@@ -439,25 +440,16 @@
                      background:white;
 
                      -webkit-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
-                     -moz-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
                      box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
 
                      border-style: solid;
                      border-color: #bfbfbf;
                      border-width: 0.05cm;
-                     -moz-border-radius: 0.1cm;
                      -webkit-border-radius: 0.1cm;
                      border-radius: 0.1cm;
 
                      overflow: hidden;
-
                      }
-
-                     .multiCardPage {
-                     page-break-after: avoid;
-                     }
-
-
 
                      @media print {
 
@@ -466,25 +458,22 @@
                      border-style: none;
                      padding: 0.0cm;
                      margin: 0.0cm;
-                     margin-top: 0cm;
 
                      -webkit-box-shadow: none;
-                     -moz-box-shadow: none;
                      box-shadow: none;
 
                      -webkit-print-color-adjust:exact;
                      print-color-adjust: exact;
-
-                     -webkit-filter:opacity(1.0);
-                     filter:opacity(1.0);
                      }
 
-                     .page:first-of-type {
-                     margin-top: 0cm;
+                     .multiCardPage {
+                     height: auto;
+                     margin-bottom: 1.0cm;
+                     page-break-after: avoid;
                      }
 
                      .page:last-of-type {
-                     page-break-after: auto;
+                     page-break-after: avoid;
                      }
 
                      }
@@ -502,20 +491,20 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                        <div class="card-content">
-                            <span class="card-title">
-                                <span class="key"></span>
-                             </span>
-                            <p class="summary"></p>
-                        </div>
-                        <div class="card-action">
+                     <div class="card-content">
+                     <span class="card-title">
+                     <span class="key"></span>
+                     </span>
+                     <p class="summary"></p>
+                     </div>
+                     <div class="card-action">
 
 
-                                <div class="badge">
-                                    <span class="estimate"></span>
-                                </div>
+                     <div class="badge">
+                     <span class="estimate"></span>
+                     </div>
 
-                        </div>
+                     </div>
                      </div>
                      */
                 }));
@@ -531,66 +520,66 @@
                      @import url(https://fonts.googleapis.com/css?family=Roboto);
                      @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
                      * {
-                         color: black;
-                         font-family: Roboto, sans-serif;
+                     color: black;
+                     font-family: Roboto, sans-serif;
                      }
                      body {
-                        margin: 0;
+                     margin: 0;
                      }
                      .hidden {
-                        visibility: hidden;
+                     visibility: hidden;
                      }
                      .card {
-                        position: relative;
-                        border: 1px solid rgba(160, 160, 160, 0.2);
-                        position: relative;
-                        overflow: hidden;
-                        margin: 0;
-                        background-color: #fff;
-                        border-radius: 2px;
-                        width: 75%;
-                        box-sizing: border-box;
-                        float: left;
+                     position: relative;
+                     border: 1px solid rgba(160, 160, 160, 0.2);
+                     position: relative;
+                     overflow: hidden;
+                     margin: 0;
+                     background-color: #fff;
+                     border-radius: 2px;
+                     width: 75%;
+                     box-sizing: border-box;
+                     float: left;
                      }
                      .card-content {
-                        padding: 20px;
-                        border-radius: 0 0 2px 2px;
-                        font-size: 20px;
+                     padding: 20px;
+                     border-radius: 0 0 2px 2px;
+                     font-size: 20px;
                      }
                      .card-title {
-                        line-height: 48px;
-                        font-size: 16px;
-                        font-weight: 300;
+                     line-height: 48px;
+                     font-size: 16px;
+                     font-weight: 300;
                      }
                      .key {
-                        font-size: 1rem;
+                     font-size: 1rem;
                      }
                      .badge {
-                        color: #fff;
-                        background-color: #000;
-                        border-radius: 2px;
-                        min-width: 2rem;
-                        padding: 0 6px;
-                        min-width: 3rem;
-                        text-align: center;
-                        line-height: inherit;
-                        box-sizing: border-box;
+                     color: #fff;
+                     background-color: #000;
+                     border-radius: 2px;
+                     min-width: 2rem;
+                     padding: 0 6px;
+                     min-width: 3rem;
+                     text-align: center;
+                     line-height: inherit;
+                     box-sizing: border-box;
                      }
                      .summary {
-                        font-size: 1rem;
+                     font-size: 1rem;
                      }
                      .card-action {
-                        padding: 20px;
-                        text-align: right;
+                     padding: 20px;
+                     text-align: right;
 
                      }
                      .estimate {
-                        color: #fff;
+                     color: #fff;
                      }
                      .card-action div {
-                        display: inline-block;
-                        margin-right: 20px;
-                        text-transform: uppercase;
+                     display: inline-block;
+                     margin-right: 20px;
+                     text-transform: uppercase;
                      }
                      */
                 }).replace(/{RESOURCE_ORIGIN}/g, resourceOrigin));
