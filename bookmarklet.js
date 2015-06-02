@@ -13,10 +13,6 @@
             main();
         });
 
-        function handleError(err){
-            console.log("ERROR: " + err.stack);
-        }
-
         function init(){
             addJQueryFunctions();
             addStringFunctions();
@@ -51,58 +47,11 @@
             });
         }
 
-        function print() {
-            try {
-                var rowCount = jQuery("#rowCount").val();
-                var columnCount = jQuery("#columnCount").val();
-                var scale = jQuery("#card-scale-range").val();
-                var singleCard = jQuery("#single-card-page-checkbox").is(':checked');
-                var hideDescription = jQuery("#hide-description-checkbox").is(':checked');
-
-                var printFrame = jQuery("#card-print-dialog-content-iframe");
-                var printWindow = printFrame[0].contentWindow;
-                var printDocument = printWindow.document;
-                var currentScale = jQuery("html", printDocument).css("font-size").replace("px", "");
-                printWindow.matchMedia("print").addListener(function() {
-
-                    var pageWidth = jQuery("body", printDocument).outerWidth();
-                    var cardWidth = jQuery(".card", printDocument).outerWidth();
-
-                    var newScale = currentScale * pageWidth / cardWidth;
-
-                    //jQuery("html", printDocument).css("font-size",newScale +"px");
-                });
-
-                /////////////////////////////////////////
-
-                printWindow.addEventListener("resize", refreshCard);
-                printWindow.matchMedia("print").addListener(refreshCard);
-
-                function refreshCard() {
-                    var cardElements = printDocument.querySelectorAll(".card");
-                    forEach(cardElements, function (cardElement) {
-                        var cardContent = cardElement.querySelectorAll(".card-body")[0];
-                        if (cardContent.scrollHeight > cardContent.offsetHeight) {
-                            cardContent.classList.add("zigzag");
-                        } else {
-                            cardContent.classList.remove("zigzag");
-                        }
-                    });
-                }
-
-                function forEach(array, callback) {
-                    for (i = 0; i < array.length; i++) {
-                        callback(array[i]);
-                    }
-                }
-
-                /////////////////////////////////////////
-
-                printWindow.print();
-                jQuery("html", printDocument).css("font-size",currentScale +"px");
-            } catch (err) {
-                handleError(err);
-            }
+        function print(){
+            var printFrame = jQuery("#card-print-dialog-content-iframe");
+            var printWindow = printFrame[0].contentWindow;
+            var printDocument = printWindow.document;
+            printWindow.print();
         }
 
         function endableMultiCardPage(enable){
@@ -553,20 +502,20 @@
                 .html(multilineString(function() {
                     /*!
                      <div class="card">
-                        <div class="card-content">
-                            <span class="card-title">
-                                <span class="key"></span>
-                             </span>
-                            <p class="summary"></p>
-                        </div>
-                        <div class="card-action">
+                     <div class="card-content">
+                     <span class="card-title">
+                     <span class="key"></span>
+                     </span>
+                     <p class="summary"></p>
+                     </div>
+                     <div class="card-action">
 
 
-                                <div class="badge">
-                                    <span class="estimate"></span>
-                                </div>
+                     <div class="badge">
+                     <span class="estimate"></span>
+                     </div>
 
-                        </div>
+                     </div>
                      </div>
                      */
                 }));
@@ -582,66 +531,66 @@
                      @import url(https://fonts.googleapis.com/css?family=Roboto);
                      @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
                      * {
-                         color: black;
-                         font-family: Roboto, sans-serif;
+                     color: black;
+                     font-family: Roboto, sans-serif;
                      }
                      body {
-                        margin: 0;
+                     margin: 0;
                      }
                      .hidden {
-                        visibility: hidden;
+                     visibility: hidden;
                      }
                      .card {
-                        position: relative;
-                        border: 1px solid rgba(160, 160, 160, 0.2);
-                        position: relative;
-                        overflow: hidden;
-                        margin: 0;
-                        background-color: #fff;
-                        border-radius: 2px;
-                        width: 75%;
-                        box-sizing: border-box;
-                        float: left;
+                     position: relative;
+                     border: 1px solid rgba(160, 160, 160, 0.2);
+                     position: relative;
+                     overflow: hidden;
+                     margin: 0;
+                     background-color: #fff;
+                     border-radius: 2px;
+                     width: 75%;
+                     box-sizing: border-box;
+                     float: left;
                      }
                      .card-content {
-                        padding: 20px;
-                        border-radius: 0 0 2px 2px;
-                        font-size: 20px;
+                     padding: 20px;
+                     border-radius: 0 0 2px 2px;
+                     font-size: 20px;
                      }
                      .card-title {
-                        line-height: 48px;
-                        font-size: 16px;
-                        font-weight: 300;
+                     line-height: 48px;
+                     font-size: 16px;
+                     font-weight: 300;
                      }
                      .key {
-                        font-size: 1rem;
+                     font-size: 1rem;
                      }
                      .badge {
-                        color: #fff;
-                        background-color: #000;
-                        border-radius: 2px;
-                        min-width: 2rem;
-                        padding: 0 6px;
-                        min-width: 3rem;
-                        text-align: center;
-                        line-height: inherit;
-                        box-sizing: border-box;
+                     color: #fff;
+                     background-color: #000;
+                     border-radius: 2px;
+                     min-width: 2rem;
+                     padding: 0 6px;
+                     min-width: 3rem;
+                     text-align: center;
+                     line-height: inherit;
+                     box-sizing: border-box;
                      }
                      .summary {
-                        font-size: 1rem;
+                     font-size: 1rem;
                      }
                      .card-action {
-                        padding: 20px;
-                        text-align: right;
+                     padding: 20px;
+                     text-align: right;
 
                      }
                      .estimate {
-                        color: #fff;
+                     color: #fff;
                      }
                      .card-action div {
-                        display: inline-block;
-                        margin-right: 20px;
-                        text-transform: uppercase;
+                     display: inline-block;
+                     margin-right: 20px;
+                     text-transform: uppercase;
                      }
                      */
                 }).replace(/{RESOURCE_ORIGIN}/g, resourceOrigin));
