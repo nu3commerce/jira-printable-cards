@@ -309,55 +309,6 @@
         });
     }
 
-    function getCardDataPivotalTracker(issueKey, callback) {
-        getIssueDataPivotalTracker(issueKey,function(data){
-
-            var issueData = {};
-
-            issueData.key = data.id;
-
-            issueData.type = data.kind.toLowerCase();
-
-            issueData.summary = data.name;
-
-            issueData.description = data.description;
-            if(issueData.description){
-                issueData.description = "<p>"+issueData.description
-            }
-
-            if ( data.owned_by && data.owned_by.length > 0 ) {
-                issueData.assignee = data.owner_ids[0].name;
-            }
-
-            if ( data.deadline ) {
-                issueData.dueDate = new Date(data.deadline).format('D d.m.');
-            }
-
-            issueData.hasAttachment = false;
-            if(issueData.description){
-                var printScope = issueData.description.indexOf(printScopeDeviderToken);
-                if (printScope >= 0) {
-                    issueData.description = issueData.description.substring(0, printScope);
-                    issueData.hasAttachment = true;
-                }
-            }
-
-            issueData.storyPoints = data.estimate;
-
-// TODO
-            // issueData.epicKey = data.fields.epicLink;
-            // if ( issueData.epicKey ) {
-            //   getIssueDataPivotalTracker(issueData.epicKey , function(data) {
-            //     issueData.epicName = data.fields.epicName;
-            //   }, false);
-            // }
-
-            issueData.url = data.url;
-
-            callback(issueData);
-        });
-    }
-
     function getIssueDataJira(issueKey, callback, async) {
         async = typeof async !== 'undefined' ? async : true;
         //https://docs.atlassian.com/jira/REST/latest/
@@ -385,61 +336,13 @@
         });
     }
 
-    function getIssueDataPivotalTracker(issueKey, callback, async) {
-        async = typeof async !== 'undefined' ? async : true;
-        //http://www.pivotaltracker.com/help/api
-        var url = 'https://www.pivotaltracker.com/services/v5/stories/' + issueKey + "?fields=name,kind,description,story_type,owned_by(name),comments(file_attachments(kind)),estimate,deadline";
-        console.logDebug("IssueUrl: " + url);
-        console.logDebug("Issue: " + issueKey + " Loading...");
-        jQuery.ajax({
-            type: 'GET',
-            url: url,
-            data: {},
-            dataType: 'json',
-            async: async,
-            success: function(responseData){
-                console.logDebug("Issue: " + issueKey + " Loaded!");
-                callback(responseData);
-            },
-        });
-    }
 
     function fillCard(card, data) {
         //Key
         card.find('.key').text(data.key);
 
-        //Type
-        card.find(".card").attr("type", data.type);
-
         //Summary
         card.find('.summary').text(data.summary);
-
-        //Description
-        card.find('.description').html(data.description);
-
-        //Assignee
-        if ( data.assignee ) {
-            if(data.avatarUrl){
-                card.find(".assignee").css("background-image", "url('" + data.avatarUrl + "')");
-            } else {
-                card.find(".assignee").text(data.assignee[0].toUpperCase());
-            }
-        } else {
-            card.find(".assignee").addClass("hidden");
-        }
-
-        //Due-Date
-        if ( data.dueDate ) {
-            card.find(".due-date").text(data.dueDate);
-        } else {
-            card.find(".due").addClass("hidden");
-        }
-
-        //Attachment
-        if ( data.hasAttachment ) {
-        } else{
-            card.find('.attachment').addClass('hidden');
-        }
 
         //Story Points
         if (data.storyPoints) {
@@ -447,18 +350,6 @@
         } else {
             card.find(".estimate").addClass("hidden");
         }
-
-        //Epic
-        if ( data.epicKey ) {
-            card.find(".epic-key").text(data.epicKey);
-            card.find(".epic-name").text(data.epicName);
-        } else {
-            card.find(".epic").addClass("hidden");
-        }
-
-        //QR-Code
-        var qrCodeUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=' + encodeURIComponent(data.url);
-        card.find(".qr-code").css("background-image", "url('" + qrCodeUrl + "')");
     }
 
     //############################################################################################################################
@@ -698,7 +589,6 @@
                 /*!
                  HTML {
                  font-size: 1.0cm;
-                 overflow: hidden;
                  }
                  .page {
                  position: relative;
@@ -715,16 +605,25 @@
                  background:white;
 
                  -webkit-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
+                 -moz-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
                  box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
 
                  border-style: solid;
                  border-color: #bfbfbf;
                  border-width: 0.05cm;
+                 -moz-border-radius: 0.1cm;
                  -webkit-border-radius: 0.1cm;
                  border-radius: 0.1cm;
 
                  overflow: hidden;
+
                  }
+
+                 .multiCardPage {
+                 page-break-after: avoid;
+                 }
+
+
 
                  @media print {
 
@@ -733,22 +632,25 @@
                  border-style: none;
                  padding: 0.0cm;
                  margin: 0.0cm;
+                 margin-top: 0cm;
 
                  -webkit-box-shadow: none;
+                 -moz-box-shadow: none;
                  box-shadow: none;
 
                  -webkit-print-color-adjust:exact;
                  print-color-adjust: exact;
+
+                 -webkit-filter:opacity(1.0);
+                 filter:opacity(1.0);
                  }
 
-                 .multiCardPage {
-                 height: auto;
-                 margin-bottom: 1.0cm;
-                 page-break-after: avoid;
+                 .page:first-of-type {
+                 margin-top: 0cm;
                  }
 
                  .page:last-of-type {
-                 page-break-after: avoid;
+                 page-break-after: auto;
                  }
 
                  }
