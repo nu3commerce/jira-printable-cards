@@ -2,7 +2,26 @@
     var version = "3.4.0";
     console.log("Version: " + version);
 
-    var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
+    var isDev = /.*jira.atlassian.com\/secure\/RapidBoard.jspa\?.*projectKey=ANERDS.*/g.test(document.URL) // Jira
+        || /.*pivotaltracker.com\/n\/projects\/510733.*/g.test(document.URL); // PivotTracker
+
+    var hostOrigin = "https://qoomon.github.io/Jira-Issue-Card-Printer/";
+    if(isDev){
+        console.log("DEVELOPMENT");
+        hostOrigin = "https://rawgit.com/qoomon/Jira-Issue-Card-Printer/develop/";
+    } else {
+        //cors = "https://cors-anywhere.herokuapp.com/";
+        //$("#card").load("https://cors-anywhere.herokuapp.com/"+"https://qoomon.github.io/Jira-Issue-Card-Printer/card.html");
+
+        // <GoogleAnalytics>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-50840116-3', {'alwaysSendReferrer': true});
+        ga('set', 'page', '/cardprinter');
+    }
 
     try {
         // load jQuery
@@ -17,6 +36,12 @@
         });
     } catch (err) {
         console.log(err.message);
+        if(!isDev){
+            ga('send', 'exception', {
+                'exDescription': err.message,
+                'exFatal': true
+            });
+        }
     }
 
     function init(){
@@ -59,6 +84,10 @@
         jQuery("body").append(printOverlayHTML);
         jQuery("#card-print-overlay").prepend(printOverlayStyle);
 
+        if(!isDev){
+            ga('send', 'pageview');
+        }
+
         jQuery("#card-print-dialog-title").text("Card Print   -   Loading " + issueKeyList.length + " issues...");
         renderCards(issueKeyList, function(){
             jQuery("#card-print-dialog-title").text("Card Print");
@@ -69,6 +98,9 @@
         var printFrame = jQuery("#card-print-dialog-content-iframe");
         var printWindow = printFrame[0].contentWindow;
         var printDocument = printWindow.document;
+        if(!isDev){
+            ga('send', 'event', 'button', 'click', 'print', jQuery(".card", printDocument).length );
+        }
 
         //jQuery("html", printDocument).css("font-size", + 0.5 +"cm");
 
@@ -141,7 +173,9 @@
             var deferred = addDeferred(deferredList);
             getCardData(issueKey, function(cardData) {
                 console.logDebug("cardData: " + cardData);
-
+                if(!isDev){
+                    ga('send', 'event', 'task', 'generate', 'card', cardData.type );
+                }
                 fillCard(page, cardData);
                 page.show();
                 resizeIframe(printFrame);
@@ -578,7 +612,6 @@
                  border-style: solid;
                  border-color: #cccccc;
                  border-width: 1px;
-                 -moz-border-radius: 4px;
                  -webkit-border-radius: 4px;
                  border-radius: 4px;
 
@@ -668,6 +701,7 @@
                 /*!
                  HTML {
                  font-size: 1.0cm;
+                 overflow: hidden;
                  }
                  .page {
                  position: relative;
@@ -684,25 +718,16 @@
                  background:white;
 
                  -webkit-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
-                 -moz-box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
                  box-shadow: 0px 0px 7px 3px rgba(31,31,31,0.4);
 
                  border-style: solid;
                  border-color: #bfbfbf;
                  border-width: 0.05cm;
-                 -moz-border-radius: 0.1cm;
                  -webkit-border-radius: 0.1cm;
                  border-radius: 0.1cm;
 
                  overflow: hidden;
-
                  }
-
-                 .multiCardPage {
-                 page-break-after: avoid;
-                 }
-
-
 
                  @media print {
 
@@ -711,25 +736,22 @@
                  border-style: none;
                  padding: 0.0cm;
                  margin: 0.0cm;
-                 margin-top: 0cm;
 
                  -webkit-box-shadow: none;
-                 -moz-box-shadow: none;
                  box-shadow: none;
 
                  -webkit-print-color-adjust:exact;
                  print-color-adjust: exact;
-
-                 -webkit-filter:opacity(1.0);
-                 filter:opacity(1.0);
                  }
 
-                 .page:first-of-type {
-                 margin-top: 0cm;
+                 .multiCardPage {
+                 height: auto;
+                 margin-bottom: 1.0cm;
+                 page-break-after: avoid;
                  }
 
                  .page:last-of-type {
-                 page-break-after: auto;
+                 page-break-after: avoid;
                  }
 
                  }
@@ -789,11 +811,9 @@
             .attr("type", "text/css")
             .html(multilineString(function() {
                 /*!
-                 @import url(https://fonts.googleapis.com/css?family=Roboto);
-                 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
                  * {
                  color: black;
-                 font-family: Roboto, sans-serif;
+                 font-family:"Droid Serif";
                  }
                  body {
                  margin: 0;
@@ -801,57 +821,258 @@
                  .hidden {
                  visibility: hidden;
                  }
-                 .card {
-                 position: relative;
-                 border: 1px solid rgba(160, 160, 160, 0.2);
-                 position: relative;
-                 overflow: hidden;
-                 margin: 0;
-                 background-color: #fff;
-                 border-radius: 2px;
-                 width: 75%;
-                 box-sizing: border-box;
-                 float: left;
+                 .card-header:after,
+                 .card-footer:after {
+                 content:" ";
+                 display: block;
+                 clear: both;
+                 height:0
                  }
-                 .card-content {
-                 padding: 20px;
-                 border-radius: 0 0 2px 2px;
-                 font-size: 20px;
+                 .card-border,
+                 .badge,
+                 .shadow {
+                 border-style: solid;
+                 border-color: #2f2f2f;
+                 border-top-width: 0.14rem;
+                 border-left-width: 0.14rem;
+                 border-bottom-width: 0.24rem;
+                 border-right-width: 0.24rem;
+                 -webkit-border-radius: 0.25rem;
+                 border-radius: 0.25rem;
                  }
-                 .card-title {
-                 line-height: 48px;
-                 font-size: 16px;
-                 font-weight: 300;
-                 }
-                 .key {
-                 font-size: 1rem;
+                 .circular {
+                 -webkit-border-radius: 50%;
+                 border-radius: 50%;
                  }
                  .badge {
-                 color: #fff;
-                 background-color: #000;
-                 border-radius: 2px;
-                 min-width: 2rem;
-                 padding: 0 6px;
-                 min-width: 3rem;
-                 text-align: center;
-                 line-height: inherit;
-                 box-sizing: border-box;
+                 width: 3.2rem;
+                 height: 3.2rem;
+                 background: #d0d0d0;
                  }
-                 .summary {
-                 font-size: 1rem;
+                 .card {
+                 position: relative;
+                 min-width: 17.0rem;
+                 max-height: 100%;
+                 overflow: hidden;
                  }
-                 .card-action {
-                 padding: 20px;
-                 text-align: right;
+                 .author{
+                 line-height: 0.8rem;
+                 }
+                 .author-page {
+                 z-index: 999;
+                 position: absolute;
+                 top:2.5rem;
+                 right:0.55rem;
+                 font-size: 0.45rem;
+                 -webkit-transform-origin: 100% 100%;
+                 transform-origin: 100% 100%;
+                 -webkit-transform: rotate(-90deg);
+                 transform: rotate(-90deg);
+                 }
+                 .author-name {
+                 z-index: 0;
+                 position: absolute;
+                 top:3.26rem;
+                 right:-2.6rem;
+                 font-size: 0.35rem;
+                 -webkit-transform-origin: 0% 0%;
+                 transform-origin: 0% 0%;
+                 -webkit-transform: rotate(90deg);
+                 transform: rotate(90deg);
+                 }
+                 .card-border {
+                 position: absolute;
+                 top:2.0rem;
+                 left:0.4rem;
+                 right:0.4rem;
+                 height: calc(100% - 4.0rem);
+                 background: #ffffff;
 
                  }
-                 .estimate {
-                 color: #fff;
+                 .card-header {
+                 position: relative;
                  }
-                 .card-action div {
-                 display: inline-block;
-                 margin-right: 20px;
-                 text-transform: uppercase;
+                 .card-content {
+                 position: relative;
+                 margin-top: 0.3rem;
+                 margin-left: 1.0rem;
+                 margin-right: 1.1rem;
+                 margin-bottom: 0.2rem;
+                 min-height: 1.2rem;
+                 }
+                 .content-header {
+                 position: relative;
+                 font-size: 1.1rem;
+                 line-height: 1.1rem;
+                 //margin-bottom: 0.6rem;
+                 }
+                 .card-footer {
+                 position: relative;
+                 }
+                 .summary {
+                 font-weight: bold;
+                 }
+                 .description {
+                 display:  block;
+                 font-size: 0.6rem;
+                 line-height: 0.6rem;
+                 overflow: hidden;
+                 display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 }
+                 .key {
+                 position: absolute;
+                 float: left;
+                 width: auto;
+                 min-width: 4.4rem;
+                 height: 1.35rem;
+                 left: 3.0rem;
+                 margin-top: 1.2rem;
+                 padding-left: 0.7rem;
+                 padding-right: 0.4rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 1.0rem;
+                 line-height: 1.5rem;
+                 }
+                 .type-icon {
+                 position: relative;
+                 float: left;
+                 background-color: GREENYELLOW;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Objects.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: 70%;
+                 background-size: 70%;
+                 background-position: center;
+                 z-index: 1;
+                 }
+
+                 .card[type="story"] .type-icon {
+                 background-color: GOLD;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bulb.png);
+                 }
+                 .card[type="bug"] .type-icon {
+                 background-color: CRIMSON;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bug.png);
+                 }
+                 .card[type="epic"] .type-icon {
+                 background-color: ROYALBLUE;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Flash.png);
+                 }
+
+                 .estimate {
+                 position: relative;
+                 float: left;
+                 left: -0.65rem;
+                 top:-1.5rem;
+                 height: 1.1rem;
+                 width: 1.1rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 0.9rem;
+                 line-height: 1.15rem;
+                 margin-top:1.5rem;
+                 z-index: 999;
+                 }
+
+                 .due {
+                 position: relative;
+                 float: right;
+                 }
+                 .due-icon {
+                 position: relative;
+                 float:right;
+                 width: 2.5rem;
+                 height: 2.5rem;
+                 margin-top: 0.4rem;
+                 background-color: MEDIUMPURPLE;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/AlarmClock.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: 65%;
+                 background-size: 65%;
+                 background-position: center;
+                 z-index: 1;
+                 }
+                 .due-date {
+                 position: relative;
+                 float: right;
+                 right: -0.6rem;
+                 width: auto;
+                 min-width: 2.8rem;
+                 height: auto;
+                 margin-top: 1.3rem;
+                 padding-top: 0.2rem;
+                 padding-bottom: 0.2rem;
+                 padding-left: 0.3rem;
+                 padding-right: 0.6rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 0.7rem;
+                 line-height: 0.7rem;
+                 }
+                 .attachment {
+                 position: relative;
+                 float: left;
+                 margin-left: 0.6rem;
+                 width: 2.1rem;
+                 height: 2.1rem;
+                 background-color: LIGHTSKYBLUE;
+                 background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/2f2f2f/attach-256.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: 70%;
+                 background-size: 70%;
+                 background-position: center;
+
+                 }
+                 .assignee {
+                 position: relative;
+                 float: right;
+                 width: 2.1rem;
+                 height: 2.1rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 1.8rem;
+                 line-height: 2.2rem;
+                 //background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/aaaaaa/contacts-256.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: cover;
+                 background-size: cover;
+                 -webkit-background-size: 100%;
+                 background-size: 100%;
+                 //-webkit-filter: contrast(150%) grayscale(100%);
+                 //filter: contrast(150%) grayscale(100%);
+                 background-position: center;
+                 }
+                 .qr-code {
+                 position: relative;
+                 float: left;
+                 width: 2.1rem;
+                 height: 2.1rem;
+                 background-image: url(https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=blog.qoomon.com);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: cover;
+                 background-size: cover;
+                 background-position: center;
+                 }
+                 .epic {
+                 width: auto;
+                 height: auto;
+                 position: relative;
+                 float:right;
+                 margin-right:0.6rem;
+                 padding-top: 0.2rem;
+                 padding-bottom: 0.2rem;
+                 padding-left: 0.3rem;
+                 padding-right: 0.3rem;
+                 text-align: left;
+                 font-size: 0.7rem;
+                 line-height: 0.7rem;
+                 max-width: calc( 100% - 10.2rem);
+                 }
+                 .epic-key {
+                 }
+                 .epic-name {
+                 font-weight: bold;
                  }
                  */
             }).replace(/{RESOURCE_ORIGIN}/g, resourceOrigin));
