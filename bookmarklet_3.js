@@ -2,10 +2,10 @@
     var version = "3.4.0";
     console.log("Version: " + version);
 
-    var isDev = /.*jira.atlassian.com\/secure\/RapidBoard.jspa\?.*projectKey=ANERDS.*/g.test(document.URL) // Jira
-        || /.*pivotaltracker.com\/n\/projects\/510733.*/g.test(document.URL); // PivotTracker
+    var isDev = true;
 
-    var hostOrigin = "https://qoomon.github.io/Jira-Issue-Card-Printer/";
+    var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
+
     if(isDev){
         console.log("DEVELOPMENT");
         hostOrigin = "https://rawgit.com/qoomon/Jira-Issue-Card-Printer/develop/";
