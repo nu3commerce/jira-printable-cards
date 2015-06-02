@@ -77,11 +77,11 @@
                     - jQuery(page).find(".card-footer").outerHeight()
                     - jQuery(page).find(".content-header").outerHeight()
                     - 40;
-                //jQuery(page).find(".description").css("max-height", height+"px");
-                //var lineHeight = jQuery(page).find(".description").css("line-height");
-                //lineHeight = lineHeight.substring(0, lineHeight.length - 2);
-                //var lineClamp = Math.floor(height / lineHeight);
-                //jQuery(page).find(".description").css("-webkit-line-clamp", lineClamp+"");
+                jQuery(page).find(".description").css("max-height", height+"px");
+                var lineHeight = jQuery(page).find(".description").css("line-height");
+                lineHeight = lineHeight.substring(0, lineHeight.length - 2);
+                var lineClamp = Math.floor(height / lineHeight);
+                jQuery(page).find(".description").css("-webkit-line-clamp", lineClamp+"");
             });
         });
         printWindow.print();
@@ -728,6 +728,7 @@
                  <span class="key"></span>
                  </span>
                  <p class="summary"></p>
+                 <p class="description></p>
                  </div>
                  <div class="card-action">
 
@@ -749,11 +750,9 @@
             .attr("type", "text/css")
             .html(multilineString(function() {
                 /*!
-                 @import url(https://fonts.googleapis.com/css?family=Roboto);
-                 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
                  * {
                  color: black;
-                 font-family: Roboto, sans-serif;
+                 font-family:"Droid Serif";
                  }
                  body {
                  margin: 0;
@@ -761,57 +760,258 @@
                  .hidden {
                  visibility: hidden;
                  }
-                 .card {
-                 position: relative;
-                 border: 1px solid rgba(160, 160, 160, 0.2);
-                 position: relative;
-                 overflow: hidden;
-                 margin: 0;
-                 background-color: #fff;
-                 border-radius: 2px;
-                 width: 75%;
-                 box-sizing: border-box;
-                 float: left;
+                 .card-header:after,
+                 .card-footer:after {
+                 content:" ";
+                 display: block;
+                 clear: both;
+                 height:0
                  }
-                 .card-content {
-                 padding: 20px;
-                 border-radius: 0 0 2px 2px;
-                 font-size: 20px;
+                 .card-border,
+                 .badge,
+                 .shadow {
+                 border-style: solid;
+                 border-color: #2f2f2f;
+                 border-top-width: 0.14rem;
+                 border-left-width: 0.14rem;
+                 border-bottom-width: 0.24rem;
+                 border-right-width: 0.24rem;
+                 -webkit-border-radius: 0.25rem;
+                 border-radius: 0.25rem;
                  }
-                 .card-title {
-                 line-height: 48px;
-                 font-size: 16px;
-                 font-weight: 300;
-                 }
-                 .key {
-                 font-size: 1rem;
+                 .circular {
+                 -webkit-border-radius: 50%;
+                 border-radius: 50%;
                  }
                  .badge {
-                 color: #fff;
-                 background-color: #000;
-                 border-radius: 2px;
-                 min-width: 2rem;
-                 padding: 0 6px;
-                 min-width: 3rem;
-                 text-align: center;
-                 line-height: inherit;
-                 box-sizing: border-box;
+                 width: 3.2rem;
+                 height: 3.2rem;
+                 background: #d0d0d0;
                  }
-                 .summary {
-                 font-size: 1rem;
+                 .card {
+                 position: relative;
+                 min-width: 17.0rem;
+                 max-height: 100%;
+                 overflow: hidden;
                  }
-                 .card-action {
-                 padding: 20px;
-                 text-align: right;
+                 .author{
+                 line-height: 0.8rem;
+                 }
+                 .author-page {
+                 z-index: 999;
+                 position: absolute;
+                 top:2.5rem;
+                 right:0.55rem;
+                 font-size: 0.45rem;
+                 -webkit-transform-origin: 100% 100%;
+                 transform-origin: 100% 100%;
+                 -webkit-transform: rotate(-90deg);
+                 transform: rotate(-90deg);
+                 }
+                 .author-name {
+                 z-index: 0;
+                 position: absolute;
+                 top:3.26rem;
+                 right:-2.6rem;
+                 font-size: 0.35rem;
+                 -webkit-transform-origin: 0% 0%;
+                 transform-origin: 0% 0%;
+                 -webkit-transform: rotate(90deg);
+                 transform: rotate(90deg);
+                 }
+                 .card-border {
+                 position: absolute;
+                 top:2.0rem;
+                 left:0.4rem;
+                 right:0.4rem;
+                 height: calc(100% - 4.0rem);
+                 background: #ffffff;
 
                  }
-                 .estimate {
-                 color: #fff;
+                 .card-header {
+                 position: relative;
                  }
-                 .card-action div {
-                 display: inline-block;
-                 margin-right: 20px;
-                 text-transform: uppercase;
+                 .card-content {
+                 position: relative;
+                 margin-top: 0.3rem;
+                 margin-left: 1.0rem;
+                 margin-right: 1.1rem;
+                 margin-bottom: 0.2rem;
+                 min-height: 1.2rem;
+                 }
+                 .content-header {
+                 position: relative;
+                 font-size: 1.1rem;
+                 line-height: 1.1rem;
+                 //margin-bottom: 0.6rem;
+                 }
+                 .card-footer {
+                 position: relative;
+                 }
+                 .summary {
+                 font-weight: bold;
+                 }
+                 .description {
+                 display:  block;
+                 font-size: 0.6rem;
+                 line-height: 0.6rem;
+                 overflow: hidden;
+                 display: -webkit-box;
+                 -webkit-box-orient: vertical;
+                 }
+                 .key {
+                 position: absolute;
+                 float: left;
+                 width: auto;
+                 min-width: 4.4rem;
+                 height: 1.35rem;
+                 left: 3.0rem;
+                 margin-top: 1.2rem;
+                 padding-left: 0.7rem;
+                 padding-right: 0.4rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 1.0rem;
+                 line-height: 1.5rem;
+                 }
+                 .type-icon {
+                 position: relative;
+                 float: left;
+                 background-color: GREENYELLOW;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Objects.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: 70%;
+                 background-size: 70%;
+                 background-position: center;
+                 z-index: 1;
+                 }
+
+                 .card[type="story"] .type-icon {
+                 background-color: GOLD;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bulb.png);
+                 }
+                 .card[type="bug"] .type-icon {
+                 background-color: CRIMSON;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Bug.png);
+                 }
+                 .card[type="epic"] .type-icon {
+                 background-color: ROYALBLUE;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/Flash.png);
+                 }
+
+                 .estimate {
+                 position: relative;
+                 float: left;
+                 left: -0.65rem;
+                 top:-1.5rem;
+                 height: 1.1rem;
+                 width: 1.1rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 0.9rem;
+                 line-height: 1.15rem;
+                 margin-top:1.5rem;
+                 z-index: 999;
+                 }
+
+                 .due {
+                 position: relative;
+                 float: right;
+                 }
+                 .due-icon {
+                 position: relative;
+                 float:right;
+                 width: 2.5rem;
+                 height: 2.5rem;
+                 margin-top: 0.4rem;
+                 background-color: MEDIUMPURPLE;
+                 background-image: url(https://googledrive.com/host/0Bwgd0mVaLU_KU0N5b3JyRnJaNTA/resources/icons/AlarmClock.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: 65%;
+                 background-size: 65%;
+                 background-position: center;
+                 z-index: 1;
+                 }
+                 .due-date {
+                 position: relative;
+                 float: right;
+                 right: -0.6rem;
+                 width: auto;
+                 min-width: 2.8rem;
+                 height: auto;
+                 margin-top: 1.3rem;
+                 padding-top: 0.2rem;
+                 padding-bottom: 0.2rem;
+                 padding-left: 0.3rem;
+                 padding-right: 0.6rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 0.7rem;
+                 line-height: 0.7rem;
+                 }
+                 .attachment {
+                 position: relative;
+                 float: left;
+                 margin-left: 0.6rem;
+                 width: 2.1rem;
+                 height: 2.1rem;
+                 background-color: LIGHTSKYBLUE;
+                 background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/2f2f2f/attach-256.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: 70%;
+                 background-size: 70%;
+                 background-position: center;
+
+                 }
+                 .assignee {
+                 position: relative;
+                 float: right;
+                 width: 2.1rem;
+                 height: 2.1rem;
+                 text-align: center;
+                 font-weight: bold;
+                 font-size: 1.8rem;
+                 line-height: 2.2rem;
+                 //background-image: url(https://images.weserv.nl/?url=www.iconsdb.com/icons/download/color/aaaaaa/contacts-256.png);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: cover;
+                 background-size: cover;
+                 -webkit-background-size: 100%;
+                 background-size: 100%;
+                 //-webkit-filter: contrast(150%) grayscale(100%);
+                 //filter: contrast(150%) grayscale(100%);
+                 background-position: center;
+                 }
+                 .qr-code {
+                 position: relative;
+                 float: left;
+                 width: 2.1rem;
+                 height: 2.1rem;
+                 background-image: url(https://chart.googleapis.com/chart?cht=qr&chs=256x256&chld=L|1&chl=blog.qoomon.com);
+                 background-repeat: no-repeat;
+                 -webkit-background-size: cover;
+                 background-size: cover;
+                 background-position: center;
+                 }
+                 .epic {
+                 width: auto;
+                 height: auto;
+                 position: relative;
+                 float:right;
+                 margin-right:0.6rem;
+                 padding-top: 0.2rem;
+                 padding-bottom: 0.2rem;
+                 padding-left: 0.3rem;
+                 padding-right: 0.3rem;
+                 text-align: left;
+                 font-size: 0.7rem;
+                 line-height: 0.7rem;
+                 max-width: calc( 100% - 10.2rem);
+                 }
+                 .epic-key {
+                 }
+                 .epic-name {
+                 font-weight: bold;
                  }
                  */
             }).replace(/{RESOURCE_ORIGIN}/g, resourceOrigin));
