@@ -77,11 +77,11 @@
                     - jQuery(page).find(".card-footer").outerHeight()
                     - jQuery(page).find(".content-header").outerHeight()
                     - 40;
-                jQuery(page).find(".description").css("max-height", height+"px");
-                var lineHeight = jQuery(page).find(".description").css("line-height");
-                lineHeight = lineHeight.substring(0, lineHeight.length - 2);
-                var lineClamp = Math.floor(height / lineHeight);
-                jQuery(page).find(".description").css("-webkit-line-clamp", lineClamp+"");
+                //jQuery(page).find(".description").css("max-height", height+"px");
+                //var lineHeight = jQuery(page).find(".description").css("line-height");
+                //lineHeight = lineHeight.substring(0, lineHeight.length - 2);
+                //var lineClamp = Math.floor(height / lineHeight);
+                //jQuery(page).find(".description").css("-webkit-line-clamp", lineClamp+"");
             });
         });
         printWindow.print();
