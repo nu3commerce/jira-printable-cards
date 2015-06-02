@@ -2,26 +2,7 @@
     var version = "3.4.0";
     console.log("Version: " + version);
 
-    var isDev = /.*jira.atlassian.com\/secure\/RapidBoard.jspa\?.*projectKey=ANERDS.*/g.test(document.URL) // Jira
-        || /.*pivotaltracker.com\/n\/projects\/510733.*/g.test(document.URL); // PivotTracker
-
-    var hostOrigin = "https://qoomon.github.io/Jira-Issue-Card-Printer/";
-    if(isDev){
-        console.log("DEVELOPMENT");
-        hostOrigin = "https://rawgit.com/qoomon/Jira-Issue-Card-Printer/develop/";
-    } else {
-        //cors = "https://cors-anywhere.herokuapp.com/";
-        //$("#card").load("https://cors-anywhere.herokuapp.com/"+"https://qoomon.github.io/Jira-Issue-Card-Printer/card.html");
-
-        // <GoogleAnalytics>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-50840116-3', {'alwaysSendReferrer': true});
-        ga('set', 'page', '/cardprinter');
-    }
+    var hostOrigin = "https://avoinicu.github.io/jira-printable-cards/";
 
     try {
         // load jQuery
@@ -36,12 +17,6 @@
         });
     } catch (err) {
         console.log(err.message);
-        if(!isDev){
-            ga('send', 'exception', {
-                'exDescription': err.message,
-                'exFatal': true
-            });
-        }
     }
 
     function init(){
@@ -84,10 +59,6 @@
         jQuery("body").append(printOverlayHTML);
         jQuery("#card-print-overlay").prepend(printOverlayStyle);
 
-        if(!isDev){
-            ga('send', 'pageview');
-        }
-
         jQuery("#card-print-dialog-title").text("Card Print   -   Loading " + issueKeyList.length + " issues...");
         renderCards(issueKeyList, function(){
             jQuery("#card-print-dialog-title").text("Card Print");
@@ -98,9 +69,6 @@
         var printFrame = jQuery("#card-print-dialog-content-iframe");
         var printWindow = printFrame[0].contentWindow;
         var printDocument = printWindow.document;
-        if(!isDev){
-            ga('send', 'event', 'button', 'click', 'print', jQuery(".card", printDocument).length );
-        }
 
         //jQuery("html", printDocument).css("font-size", + 0.5 +"cm");
 
@@ -173,9 +141,7 @@
             var deferred = addDeferred(deferredList);
             getCardData(issueKey, function(cardData) {
                 console.logDebug("cardData: " + cardData);
-                if(!isDev){
-                    ga('send', 'event', 'task', 'generate', 'card', cardData.type );
-                }
+
                 fillCard(page, cardData);
                 page.show();
                 resizeIframe(printFrame);
