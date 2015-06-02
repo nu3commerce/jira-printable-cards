@@ -29,11 +29,8 @@
             appendScript('//ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js');
         }
 
-        // wait untill all scripts loaded
-        appendScript('https://qoomon.github.io/void', function(){
             init();
             main();
-        });
     } catch (err) {
         console.log(err.message);
         if(!isDev){
