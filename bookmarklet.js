@@ -567,9 +567,10 @@
                      }
                      .summary {
                      font-size: 1rem;
+                     margin: 20px 0
                      }
                      .card-action {
-                     padding: 20px;
+                     padding: 0 20px 20px;
                      text-align: right;
 
                      }
